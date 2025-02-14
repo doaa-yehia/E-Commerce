@@ -1,0 +1,10 @@
+article{
+    button{
+        transition: all .3s ease-in-out;
+        &:hover{
+            i{
+                color: rgba(0, 128, 6, 0.589);
+            }
+        }
+    }
+}
