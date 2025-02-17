@@ -4,9 +4,10 @@ import { AuthService } from '../../core/services/autu/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { TranslatePipe } from '@ngx-translate/core';
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule,TranslatePipe],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })

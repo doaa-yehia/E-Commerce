@@ -27,10 +27,6 @@ export class CategoriesComponent implements OnInit{
             this.categoryProducts=res.data.filter((item:IProduct)=>item.category._id==id)
             console.log(this.categoryProducts);
             
-          },
-          error:(err)=>{
-            console.log(err);
-            
           }
         })
       }

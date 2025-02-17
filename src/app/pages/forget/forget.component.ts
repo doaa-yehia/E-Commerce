@@ -2,10 +2,11 @@ import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../core/services/autu/auth.service';
 import { Router } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-forget',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule,TranslatePipe],
   templateUrl: './forget.component.html',
   styleUrl: './forget.component.scss'
 })
@@ -47,10 +48,6 @@ export class ForgetComponent {
         }
         
         this.loading=false;
-      },
-      error:(err)=>{
-        console.log(err);
-        
       }
     })
   }
@@ -64,10 +61,6 @@ export class ForgetComponent {
           this.step++;
         }
         this.loading=false;
-        
-      },
-      error:(err)=>{
-        console.log(err);
         
       }
     })
@@ -88,10 +81,6 @@ export class ForgetComponent {
         this._Router.navigate(['/home']);
         
         this.loading=false;
-      },
-      error:(err)=>{
-        console.log(err);
-        
       }
     })
   }

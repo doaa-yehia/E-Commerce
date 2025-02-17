@@ -4,10 +4,13 @@ import { ProductsService } from '../../core/services/products/products.service';
 import { IProduct } from '../../shared/interfaces/iproduct';
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { CurrencyPipe } from '@angular/common';
+import { CartService } from '../../core/services/cart/cart.service';
+import { ToastrService } from 'ngx-toastr';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-details',
-  imports: [CarouselModule,CurrencyPipe],
+  imports: [CarouselModule,CurrencyPipe,TranslatePipe],
   templateUrl: './details.component.html',
   styleUrl: './details.component.scss'
 })
@@ -15,6 +18,9 @@ export class DetailsComponent implements OnInit {
   
   private readonly _ActivatedRoute=inject(ActivatedRoute);
   private readonly _ProductsService=inject(ProductsService)
+  private readonly cartService=inject(CartService)
+  private readonly _ToastrService=inject(ToastrService)
+  
 
   productDetails:IProduct|null=null;
 
@@ -46,8 +52,6 @@ export class DetailsComponent implements OnInit {
     nav: true
   }
 
-
-
   ngOnInit(): void {
     let productId:string|null;
     this._ActivatedRoute.paramMap.subscribe({
@@ -60,10 +64,6 @@ export class DetailsComponent implements OnInit {
           next:(res)=>{
             console.log(res.data);
             this.productDetails=res.data;
-          },
-          error:(err)=>{
-            console.log(err);
-            
           }
         })
         
@@ -72,4 +72,18 @@ export class DetailsComponent implements OnInit {
       }
     })
   }
+
+  addToCart(id:string){
+    this.cartService.AddProdutCart(id).subscribe({
+      next:(res)=>{
+        console.log(res);
+        this._ToastrService.success(res.message,"added to Cart")
+      },
+      error:(err)=>{
+        console.log(err);
+        
+      }
+    })
+  }
+
 }

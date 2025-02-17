@@ -1,11 +1,11 @@
 <section class="w-1/2 mx-auto p-4 bg-gray-50 border rounded-xl shadow-2xl">
-    <h1 class="text-3xl text-green-600 font-medium text-center">Register Now</h1>
+    <h1 class="text-3xl text-green-600 font-medium text-center">{{"register.Register"|translate}} {{"register.Now"|translate}}</h1>
    
     <form [formGroup]="registerForm" (ngSubmit)="submitForm()" >
     
         <div class="mb-2">
             <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                name
+                {{"register.name"|translate}}
             </label>
             <input formControlName="name" type="text" id="name" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500">
             @let nameControl=registerForm.get('name');
@@ -18,15 +18,15 @@
                     <div>
                         <ul class="mt-1.5 list-disc list-inside">
                           @if (nameControl?.getError('required')) {
-                            <li>the name is required</li>
+                            <li>{{"register.the"|translate}} {{"register.name"|translate}} {{"register.is"|translate}} {{"register.required"|translate}}</li>
 
                           } 
                           @else if (nameControl?.getError('minlength')) {
-                            <li>The name must be at least 3 characters long.</li>
+                            <li>{{"register.The"|translate}} {{"register.name"|translate}} {{"register.must"|translate}} {{"register.be"|translate}} {{"register.at"|translate}} {{"register.least"|translate}} {{"register.3"|translate}} {{"register.characters"|translate}} {{"register.long"|translate}}.</li>
 
                           }
                           @else {
-                            <li>The name must not exceed 20 characters.</li>
+                            <li>{{"register.The"|translate}} {{"register.name"|translate}} {{"register.must"|translate}} {{"register.not"|translate}} {{"register.exceed"|translate}} {{"register.20"|translate}} {{"register.characters"|translate}}.</li>
 
                           }
                       </ul>
@@ -39,7 +39,7 @@
     
         <div class="mb-2">
             <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                email
+                {{"register.email"|translate}}
             </label>
             <input  formControlName="email" type="email" id="email" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500">
            
@@ -53,11 +53,11 @@
                     <div>
                         <ul class="mt-1.5 list-disc list-inside">
                           @if (emailControl?.getError('required')) {
-                            <li>the email is required</li>
+                            <li>{{"register.the"|translate}} {{"register.email"|translate}} {{"register.is"|translate}} {{"register.required"|translate}}</li>
 
                           } 
                           @else  {
-                            <li>Please enter a valid email address.</li>
+                            <li>{{"register.Please"|translate}} {{"register.enter"|translate}} {{"register.a"|translate}} {{"register.valid"|translate}} {{"register.email"|translate}} {{"register.address"|translate}}.</li>
 
                           }
  
@@ -70,7 +70,7 @@
     
         <div class="mb-2">
             <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                password
+                {{"register.password"|translate}}
             </label>
             <input  formControlName="password" type="password" id="password" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500">
             
@@ -84,11 +84,11 @@
                     <div>
                         <ul class="mt-1.5 list-disc list-inside">
                           @if (passwordControl?.getError('required')) {
-                            <li>the password is required</li>
+                            <li>{{"register.the"|translate}} {{"register.password"|translate}} {{"register.is"|translate}} {{"register.required"|translate}}</li>
 
                           } 
                           @else  {
-                            <li>The password must start with an uppercase letter and be followed by at least 5 alphanumeric characters (letters, numbers, or underscores).</li>
+                            <li>{{"register.The"|translate}} {{"register.password"|translate}} {{"register.must"|translate}} {{"register.start"|translate}} {{"register.with"|translate}} {{"register.an"|translate}} {{"register.uppercase"|translate}} {{"register.letter"|translate}} {{"register.and"|translate}} {{"register.be"|translate}} {{"register.followed"|translate}} {{"register.by"|translate}} {{"register.at"|translate}} {{"register.least"|translate}} {{"register.5"|translate}} {{"register.alphanumeric"|translate}} {{"register.characters"|translate}} ({{"register.letters"|translate}}, {{"register.numbers"|translate}}, {{"register.or"|translate}} {{"register.underscores"|translate}}).</li>
 
                           }
                          
@@ -101,7 +101,7 @@
         <div class="mb-2">
             @let rePasswordControl=registerForm.get('rePassword') ;
             <label for="rePassword" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                rePassword
+                {{"register.rePassword"|translate}}
             </label>
             <input  formControlName="rePassword" type="password" id="rePassword" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
            @if (registerForm.getError('misMatch')&& rePasswordControl?.touched) {
@@ -113,10 +113,10 @@
                 <div>
                     <ul class="mt-1.5 list-disc list-inside">
                       @if(passwordControl?.getError('required')){
-                        <li>the rePassword is required</li>
+                        <li> {{"register.the"|translate}} {{"register.rePassword"|translate}} {{"register.is"|translate}} {{"register.required"|translate}}</li>
                       } 
                       @else{
-                        <li>Password confirmation is incorrect</li>
+                        <li>{{"register.Password"|translate}} {{"register.confirmation"|translate}} {{"register.is"|translate}} {{"register.incorrect"|translate}}</li>
 
                       }
                   </ul>
@@ -127,7 +127,7 @@
     
         <div class="mb-2">
             <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                phone
+                {{"register.phone"|translate}}
             </label>
             <input  formControlName="phone" type="tel" id="phone" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
             @let phoneControl=registerForm.get('phone');
@@ -141,11 +141,11 @@
                     <div>
                         <ul class="mt-1.5 list-disc list-inside">
                           @if (phoneControl?.getError('required')) {
-                            <li>the phone is required</li>
+                            <li>{{"register.the"|translate}} {{"register.phone"|translate}} {{"register.is"|translate}} {{"register.required"|translate}}</li>
 
                           } 
                           @else {
-                            <li>The phone must be Egyption phone.</li>
+                            <li>{{"register.The"|translate}} {{"register.phone"|translate}} {{"register.must"|translate}} {{"register.be"|translate}} {{"register.Egyption"|translate}} {{"register.phone"|translate}}.</li>
 
                           }
                       </ul>
@@ -155,7 +155,7 @@
         </div>
     <div class="flex justify-end items-center">
         <button [disabled]="loading" type="submit"  class=" mainButton mb-2 ">
-            SingUp
+            {{"register.SingUp"|translate}}
             @if (loading) {
                 <i class="fas fa-spin fa-spinner"></i>
             }

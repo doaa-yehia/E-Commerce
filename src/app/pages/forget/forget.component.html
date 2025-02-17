@@ -1,11 +1,11 @@
 <section>
-    <h1 class="text-3xl text-black-950 font-extrabold text-center ">Reset Password</h1>
+    <h1 class="text-3xl text-black-950 font-extrabold text-center ">{{"forgot.Reset"|translate}} {{"forgot.Password"|translate}}</h1>
    @if (step==1) {
     <form [formGroup]="verifyEmail" (ngSubmit)="submitVerifyEmail()" >
  
       <div class="mb-2">
           <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-              email
+              {{"forgot.email"|translate}}
           </label>
           <input  formControlName="email" type="email" id="email" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
           
@@ -18,11 +18,11 @@
                   <div>
                       <ul class="mt-1.5 list-disc list-inside">
                         @if (verifyEmail.get('email')?.getError('required')) {
-                          <li>the email is required</li>
+                          <li>{{"register.the"|translate}} {{"register.email"|translate}} {{"register.is"|translate}} {{"register.required"|translate}}</li>
 
                         } 
                         @else  {
-                          <li>Please enter a valid email address.</li>
+                          <li>{{"register.Please"|translate}} {{"register.enter"|translate}} {{"register.a"|translate}} {{"register.valid"|translate}} {{"register.email"|translate}} {{"register.address"|translate}}.</li>
 
                         }
 
@@ -34,7 +34,7 @@
       </div>
       
         <button [disabled]="verifyEmail.invalid" type="submit"  class=" mainButton mb-2 ms-auto block">
-              verify Email
+              {{"forgot.verify"|translate}} {{"forgot.Email"|translate}}
               @if (loading) {
                   <i class="fas fa-spin fa-spinner"></i>
               }
@@ -49,7 +49,7 @@
     
       <div class="mb-2">
           <label for="resetCode" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-            resetCode
+            {{"forgot.reset"|translate}} {{"forgot.Code"|translate}}
           </label>
           <input  formControlName="resetCode" type="text" id="resetCode" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
           
@@ -62,11 +62,12 @@
                   <div>
                       <ul class="mt-1.5 list-disc list-inside">
                         @if (verifyCode.get('resetCode')?.getError('required')) {
-                          <li>the email is required</li>
+                          <li>the Code is required</li>
+                          <li>{{"register.the"|translate}} {{"forgot.Code"|translate}} {{"register.is"|translate}} {{"register.required"|translate}}</li>
 
                         } 
                         @else  {
-                          <li>Please enter a valid Code.</li>
+                          <li>{{"forgot.Please"|translate}} {{"forgot.enter"|translate}} {{"forgot.a"|translate}} {{"forgot.valid"|translate}} {{"forgot.Code"|translate}}.</li>
 
                         }
 
@@ -78,7 +79,7 @@
       </div>
       
         <button [disabled]="verifyCode.invalid" type="submit"  class=" mainButton mb-2 ms-auto block ">
-              Verify Code
+              {{"forgot.Verify"|translate}} {{"forgot.Code"|translate}}
               @if (loading) {
                   <i class="fas fa-spin fa-spinner"></i>
               }
@@ -92,7 +93,7 @@
    
       <div class="mb-2">
           <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-              email
+              {{"forgot.email"|translate}}
           </label>
           <input readonly formControlName="email" type="email" id="email"  class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
           
@@ -122,7 +123,7 @@
   
       <div class="mb-2">
           <label for="newPassword" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-            newPassword
+            {{"forgot.new"|translate}} {{"forgot.Password"|translate}}
           </label>
           <input  formControlName="newPassword" type="password" id="newPassword" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
           @if (resetPassword.get('newPassword')?.errors && resetPassword.get('newPassword')?.touched) {
@@ -134,11 +135,11 @@
                   <div>
                       <ul class="mt-1.5 list-disc list-inside">
                         @if (resetPassword.get('newPassword')?.getError('required')) {
-                          <li>the new Password is required</li>
+                          <li>{{"register.the"|translate}} {{"forgot.new"|translate}} {{"forgot.Password"|translate}} {{"register.is"|translate}} {{"register.required"|translate}}</li>
 
                         } 
                         @else  {
-                          <li>The new Password must start with an uppercase letter and be followed by at least 5 alphanumeric characters (letters, numbers, or underscores).</li>
+                          <li>{{"register.The"|translate}} {{"forgot.new"|translate}} {{"register.password"|translate}} {{"register.must"|translate}} {{"register.start"|translate}} {{"register.with"|translate}} {{"register.an"|translate}} {{"register.uppercase"|translate}} {{"register.letter"|translate}} {{"register.and"|translate}} {{"register.be"|translate}} {{"register.followed"|translate}} {{"register.by"|translate}} {{"register.at"|translate}} {{"register.least"|translate}} {{"register.5"|translate}} {{"register.alphanumeric"|translate}} {{"register.characters"|translate}} ({{"register.letters"|translate}}, {{"register.numbers"|translate}}, {{"register.or"|translate}} {{"register.underscores"|translate}}).</li>
 
                         }
                        
@@ -150,7 +151,7 @@
   
    
     <button [disabled]="resetPassword.invalid" type="submit"  class=" mainButton mb-2 ms-auto block ">
-          Verify Email
+      {{"forgot.Verify"|translate}} {{"forgot.Email"|translate}}
           @if (loading) {
               <i class="fas fa-spin fa-spinner"></i>
           }

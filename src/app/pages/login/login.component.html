@@ -1,5 +1,5 @@
 <section class="w-1/2 mx-auto p-4 bg-gray-50 border rounded-xl shadow-2xl">
-    <h1 class="text-3xl text-green-600 font-medium text-center ">Log in Now</h1>
+    <h1 class="text-3xl text-green-600 font-medium text-center ">{{"login.Log"|translate}} {{"login.in"|translate}} {{"login.Now"|translate}}</h1>
    
     <form [formGroup]="loginForm" (ngSubmit)="submitForm()" >
     
@@ -7,7 +7,7 @@
     
         <div class="mb-2">
             <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                email
+                {{"login.email"|translate}}
             </label>
             <input  formControlName="email" type="email" id="email" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500">
            
@@ -21,11 +21,11 @@
                     <div>
                         <ul class="mt-1.5 list-disc list-inside">
                           @if (emailControl?.getError('required')) {
-                            <li>the email is required</li>
+                            <li>{{"register.the"|translate}} {{"register.email"|translate}} {{"register.is"|translate}} {{"register.required"|translate}}</li>
 
                           } 
                           @else  {
-                            <li>Please enter a valid email address.</li>
+                            <li>{{"register.Please"|translate}} {{"register.enter"|translate}} {{"register.a"|translate}} {{"register.valid"|translate}} {{"register.email"|translate}} {{"register.address"|translate}}.</li>
 
                           }
  
@@ -38,7 +38,7 @@
     
         <div class="mb-2">
             <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                password
+                {{"login.password"|translate}}
             </label>
             <input  formControlName="password" type="password" id="password" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
            
@@ -52,11 +52,11 @@
                     <div>
                         <ul class="mt-1.5 list-disc list-inside">
                           @if (passwordControl?.getError('required')) {
-                            <li>the password is required</li>
+                            <li>{{"register.the"|translate}} {{"register.password"|translate}} {{"register.is"|translate}} {{"register.required"|translate}}</li>
 
                           } 
                           @else  {
-                            <li>The password must start with an uppercase letter and be followed by at least 5 alphanumeric characters (letters, numbers, or underscores).</li>
+                            <li>{{"register.The"|translate}} {{"register.password"|translate}} {{"register.must"|translate}} {{"register.start"|translate}} {{"register.with"|translate}} {{"register.an"|translate}} {{"register.uppercase"|translate}} {{"register.letter"|translate}} {{"register.and"|translate}} {{"register.be"|translate}} {{"register.followed"|translate}} {{"register.by"|translate}} {{"register.at"|translate}} {{"register.least"|translate}} {{"register.5"|translate}} {{"register.alphanumeric"|translate}} {{"register.characters"|translate}} ({{"register.letters"|translate}}, {{"register.numbers"|translate}}, {{"register.or"|translate}} {{"register.underscores"|translate}}).</li>
 
                           }
                          
@@ -68,9 +68,9 @@
     
      
     <div class="flex justify-end items-center space-x-3">
-      <a routerLink="/forget" class="hover:text-blue-900">Forget Password </a>
+      <a routerLink="/forget" class="hover:text-blue-900">{{"login.Forget"|translate}} {{"login.Password"|translate}} </a>
       <button [disabled]="loading" type="submit"  class=" mainButton mb-2 ">
-            Login
+            {{"login.Login"|translate}}
             @if (loading) {
                 <i class="fas fa-spin fa-spinner"></i>
             }

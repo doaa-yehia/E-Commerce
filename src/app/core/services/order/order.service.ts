@@ -9,19 +9,12 @@ import { environment } from '../../../shared/environment/environment';
 export class OrderService {
 
   constructor(private _HttpClient: HttpClient) { }
-  givenToken: any = localStorage.getItem("userToken");
 
   getCheckOutSession(id: string, data: object): Observable<any> {
     return this._HttpClient.post(environment.baseUrl + `/api/v1/orders/checkout-session/${id}?url=http://localhost:4200`,
       {
         "shippingAddress": data,
-      },
-      {
-        headers: {
-          token: this.givenToken,
-        }
       }
-
     )
   }
   getUserOrder(id:string):Observable<any>{

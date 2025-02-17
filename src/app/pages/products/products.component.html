@@ -1,5 +1,37 @@
-<p>products works!</p>
+<section>
+    <h2 class="uppercase font-bold text-3xl  pb-4">{{"footer.all"|translate}} {{"navbar.products"|translate}}</h2>
+    <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-10">
+        @for (product of products; track product.id) {
+        <div class="card border  bg-white border-green-400/50 rounded-md overflow-hidden shadow relative">
+         <div [routerLink]="['/details',product.id]">
+            <picture class="card-img">
+                <img [src]="product.imageCover" class="w-full h-[250px] object-contain " [alt]="product.title" />
+            </picture>
+            <div class="card-body px-2 py-4">
+                <h3 class="text-green-600 text-xs">{{ product.category.name }}</h3>
+                <h4 class="font-medium ">{{product.title.split(" ",2).join(" ")}}</h4>
+                <div class="flex justify-between items-center">
+                    <span>{{product.price | currency: 'GBP'}} </span>
+                    <div class="flex items-center">
+                        <i class="fas fa-star text-yellow-300"></i>
+                        <span class="text-gray-500">{{ product.ratingsAverage }}</span>
+                    </div>
+                </div>
+            </div>
+
+         </div>
+            <button class="border text-white bg-green-500 rounded-md px-10 py-2 w-[90%] block mx-auto" (click)="addToCart(product.id)" >
+                <i class="fa-solid fa-cart-shopping"></i>
+                {{"cart.Cart"|translate}}</button>
+        </div>
+        }
+
+    </div>
+</section>
+
+
 <!-- <section>
+
     <h2 class="capitalize text-3xl pb-4"> Products </h2>
     <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-10">
         @for (product of categoryProducts; track product.id) {

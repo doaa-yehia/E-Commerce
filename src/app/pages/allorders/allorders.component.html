@@ -1,1 +1,35 @@
-<p>allorders works!</p>
+<section>
+    <div class="container">
+        
+        @for (order of allOrder; track $index) {
+            @if ($last) {
+    
+                <span class= " text-2xl text-center m-4 border rounded-lg shadow-lg text-white bg-green-400 w-[50%]  mx-auto block">{{"allorders.last"|translate}} {{"allorders.order"|translate}}</span>
+                <h2 class="text-xl mb-3  text-center capitalize font-extrabold ">{{"allorders.total"|translate}} {{"allorders.order"|translate}} {{"allorders.price"|translate}}: <span class="font-extrabold text-green-700"> {{order.totalOrderPrice |currency:'GBP'}} </span></h2>
+                
+                @for (cartItem of order.cartItems; track $index) {
+               
+                    <div class="grid grid-cols-1   border rounded-lg shadow-lg bg-gray-100 w-[50%] mx-auto">
+                        <div class="flex  content-center items-center  ">
+                            <picture class="">
+                                <img class="w-[70%] h-[150px] object-contain" [src]="cartItem.product.imageCover" [alt]="cartItem.product.title">
+                            </picture>
+                            <article>
+                                <h4 class="text-lg font-medium text-gray-700" >{{cartItem.product.title}}</h4>
+                                <p class="text-green-600 font-bold"> {{cartItem.product.category.name}} </p>
+                                <p > <span class="text-green-600">{{"allorders.price"|translate}}:</span> {{cartItem.price | currency:'GBP'}} </p>
+                                <p > <span class="font-bold">{{"allorders.count"|translate}}:</span> {{cartItem.count}} </p>
+                                
+                            </article>
+                        </div>
+            
+                    </div>
+                }
+            }
+           
+            
+            
+        }
+        
+    </div>
+</section>

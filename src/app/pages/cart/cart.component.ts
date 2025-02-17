@@ -5,11 +5,12 @@ import { CurrencyPipe } from '@angular/common';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import Swal from 'sweetalert2';
 import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 
 
 @Component({
   selector: 'app-cart',
-  imports: [CurrencyPipe,SweetAlert2Module,RouterLink],
+  imports: [CurrencyPipe,SweetAlert2Module,RouterLink,TranslatePipe],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss'
 })
@@ -26,10 +27,6 @@ export class CartComponent implements OnInit {
       next: (res) => {
         console.log(res.data);
         this.cartDetails=res.data;
-      },
-      error: (err) => {
-        console.log(err);
-
       }
     })
   };
@@ -40,10 +37,6 @@ export class CartComponent implements OnInit {
       next:(res)=>{
         console.log(res);
         this.cartDetails=res.data;
-        
-      },
-      error:(err)=>{
-        console.log(err);
         
       }
     })
@@ -56,10 +49,6 @@ export class CartComponent implements OnInit {
       next:(res)=>{
         console.log(res);
         this.cartDetails=res.data
-        
-      },
-      error:(err)=>{
-        console.log(err);
         
       }
     })
@@ -77,10 +66,6 @@ export class CartComponent implements OnInit {
           this.cartDetails={} as ICart;
         }
 
-      },
-      error:(err)=>{
-        console.log(err);
-        
       }
     })
     

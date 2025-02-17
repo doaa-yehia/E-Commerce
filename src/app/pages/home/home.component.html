@@ -3,24 +3,24 @@
         <div class="w-[70%]">
             <owl-carousel-o [options]="mainSliderOptions">
                 <ng-template carouselSlide>
-                    <img src="/images/img1.avif" class="w-full h-[300px]" alt="avife picture">
+                    <img src="/images/img1.avif" class="w-full h-[300px]" alt="{{'home.avife'|translate}} {{'home.picture'|translate}}">
                 </ng-template>
                 <ng-template carouselSlide>
-                    <img src="/images/img2.avif" class="w-full h-[300px]" alt="avife picture">
+                    <img src="/images/img2.avif" class="w-full h-[300px]" alt="{{'home.avife'|translate}} {{'home.picture'|translate}}">
                 </ng-template> <ng-template carouselSlide>
-                    <img src="/images/img3.avif" class="w-full h-[300px]" alt="avife picture">
+                    <img src="/images/img3.avif" class="w-full h-[300px]" alt="{{'home.avife'|translate}} {{'home.picture'|translate}}">
                 </ng-template> <ng-template carouselSlide>
-                    <img src="/images/img4.avif" class="w-full h-[300px]" alt="avife picture">
+                    <img src="/images/img4.avif" class="w-full h-[300px]" alt="{{'home.avife'|translate}} {{'home.picture'|translate}}">
                 </ng-template> <ng-template carouselSlide>
-                    <img src="/images/img5.avif" class="w-full h-[300px]" alt="avife picture">
-                </ng-template>
-    
-                <ng-template carouselSlide>
-                    <img src="/images/img6.avif" class="w-full h-[300px]" alt="avife picture">
+                    <img src="/images/img5.avif" class="w-full h-[300px]" alt="{{'home.avife'|translate}} {{'home.picture'|translate}}">
                 </ng-template>
     
                 <ng-template carouselSlide>
-                    <img src="/images/img7.avif" class="w-full h-[300px]" alt="avife picture">
+                    <img src="/images/img6.avif" class="w-full h-[300px]" alt="{{'home.avife'|translate}} {{'home.picture'|translate}}">
+                </ng-template>
+    
+                <ng-template carouselSlide>
+                    <img src="/images/img7.avif" class="w-full h-[300px]" alt="{{'home.avife'|translate}} {{'home.picture'|translate}}">
                 </ng-template>
     
             </owl-carousel-o>
@@ -36,7 +36,7 @@
 </section>
 
 <section>
-    <h2 class="capitalize text-3xl pb-4">popular categories</h2>
+    <h2 class="capitalize text-3xl pb-4">{{"home.popular"|translate}} {{"home.categories"|translate}}</h2>
     <owl-carousel-o [options]="customOptions">
         @for (category of categories; track category._id) {
         <ng-template carouselSlide>
@@ -53,7 +53,7 @@
 </section>
 
 <section>
-    <h2 class="capitalize text-3xl pb-4">popular products</h2>
+    <h2 class="capitalize text-3xl pb-4">{{"home.popular"|translate}} {{"home.products"|translate}}</h2>
     <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-10">
         @for (product of products.slice(0,12); track product.id) {
         <div class="card border  bg-white border-green-400/50 rounded-md overflow-hidden shadow relative">
@@ -71,12 +71,13 @@
                         <span class="text-gray-500">{{ product.ratingsAverage }}</span>
                     </div>
                 </div>
+                <!-- <p> {{product.}} </p> -->
             </div>
 
          </div>
             <button class="border text-white bg-green-500 rounded-md px-10 py-2 w-[90%] block mx-auto" (click)="addToCart(product.id)" >
                 <i class="fa-solid fa-cart-shopping"></i>
-                Cart</button>
+                {{"home.Cart"|translate}}</button>
         </div>
         }
 

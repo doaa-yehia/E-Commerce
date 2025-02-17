@@ -8,11 +8,12 @@ import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { CurrencyPipe } from '@angular/common';
 import { CartService } from '../../core/services/cart/cart.service';
 import { ToastrService } from 'ngx-toastr';
+import { TranslatePipe } from '@ngx-translate/core';
 
 
 @Component({
   selector: 'app-home',
-  imports: [CarouselModule,RouterLink,CurrencyPipe],
+  imports: [CarouselModule,RouterLink,CurrencyPipe,TranslatePipe],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
@@ -80,11 +81,7 @@ export class HomeComponent implements OnInit {
     this.cartService.AddProdutCart(id).subscribe({
       next:(res)=>{
         console.log(res);
-        this._ToastrService.success(res.message,"added Cart")
-      },
-      error:(err)=>{
-        console.log(err);
-        
+        this._ToastrService.success(res.message,"added to Cart")
       }
     })
   }
@@ -95,10 +92,6 @@ export class HomeComponent implements OnInit {
         this.products=res.data;
      console.log(this.products);
         
-      },
-      error:(err)=>{
-        console.log(err);
-        
       }
     })
   }
@@ -108,10 +101,6 @@ export class HomeComponent implements OnInit {
       next:(res)=>{
         this.categories=res.data
         console.log(this.categories);
-        
-      },
-      error:(err)=>{
-        console.log(err);
         
       }
     })

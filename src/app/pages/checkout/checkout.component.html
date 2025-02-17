@@ -1,10 +1,10 @@
 <section class="bg-gray-50 border shadow-lg rounded py-4 w-3/4 mx-auto my-10">
 
-    <h2 class="text-center text-green-600 text-3xl">Check Out</h2>
+    <h2 class="text-center text-green-600 text-3xl">{{"checkout.Check"|translate}} {{"checkout.Out"|translate}}</h2>
     <form class="p-2" [formGroup]="checkOutForm" (ngSubmit)="submitForm()">
     <div class="mb-2">
         <label for="details" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-            details
+            {{"checkout.details"|translate}}
         </label>
         <textarea  formControlName="details"  id="details" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500">
 
@@ -20,7 +20,7 @@
                 <div>
                     <ul class="mt-1.5 list-disc list-inside">
                       @if (detailsControl?.getError('required')) {
-                        <li>the details is required</li>
+                        <li>{{"register.the"|translate}} {{"checkout.details"|translate}} {{"register.is"|translate}} {{"register.required"|translate}}</li>
 
                       } 
                     </ul>
@@ -31,7 +31,7 @@
 
     <div class="mb-2">
         <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-            phone
+            {{"checkout.phone"|translate}}
         </label>
         <input  formControlName="phone" type="tel" id="phone" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
         @let phoneControl=checkOutForm.get('phone');
@@ -45,11 +45,11 @@
                 <div>
                     <ul class="mt-1.5 list-disc list-inside">
                       @if (phoneControl?.getError('required')) {
-                        <li>the phone is required</li>
+                        <li>{{"register.the"|translate}} {{"checkout.phone"|translate}} {{"register.is"|translate}} {{"register.required"|translate}}</li>
 
                       } 
                       @else {
-                        <li>The phone must be Egyption phone.</li>
+                        <li>{{"register.The"|translate}} {{"register.phone"|translate}} {{"register.must"|translate}} {{"register.be"|translate}} {{"register.Egyption"|translate}} {{"register.phone"|translate}}.</li>
 
                       }
                   </ul>
@@ -60,7 +60,7 @@
 
     <div class="mb-2">
         <label for="city" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-            city
+            {{"checkout.city"|translate}}
         </label>
         <input  formControlName="city" type="text" id="city" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
         @let cityControl=checkOutForm.get('city');
@@ -74,11 +74,11 @@
                 <div>
                     <ul class="mt-1.5 list-disc list-inside">
                       @if (cityControl?.getError('required')) {
-                        <li>the city is required</li>
+                        <li>{{"register.the"|translate}} {{"checkout.city"|translate}} {{"register.is"|translate}} {{"register.required"|translate}}</li>
 
                       } 
                       @else {
-                        <li>that is incorrect city.</li>
+                        <li>{{"checkout.that"|translate}} {{"checkout.is"|translate}} {{"checkout.incorrect"|translate}} {{"checkout.city"|translate}}.</li>
 
                       }
                   </ul>
@@ -87,7 +87,7 @@
         }
     </div>
 
-    <button class="mainButton mt-3 block ms-auto">Online Payment</button>
+    <button class="mainButton mt-3 block ms-auto">{{"checkout.Online"|translate}} {{"checkout.Payment"|translate}}</button>
 </form>
  
 </section>
