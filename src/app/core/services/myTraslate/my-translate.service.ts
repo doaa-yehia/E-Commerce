@@ -34,4 +34,13 @@ export class MyTranslateService {
 
     }
    }
+   changLangTranslate(lang:string){
+    //save lang in localStorage
+    localStorage.setItem("lang",lang);
+
+    //use lang
+    this.translateService.use(lang);
+    //change Direction
+    this.changeDirectio();
+   }
 }
