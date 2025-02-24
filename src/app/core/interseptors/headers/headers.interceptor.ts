@@ -9,7 +9,7 @@ export const headersInterceptor: HttpInterceptorFn = (req, next) => {
     if (localStorage.getItem('userToken')) {
       req=req.clone({
         setHeaders:{
-          token:localStorage.getItem('userToken') !,
+          token:localStorage.getItem('userToken') as string,
         }
       })
     }

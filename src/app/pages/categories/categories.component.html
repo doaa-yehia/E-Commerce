@@ -1,1 +1,37 @@
-<p>categories works</p>
+<section class="my-12">
+    <div class="container">
+        <h2 class="uppercase font-bold text-3xl text-center  pb-4">{{"footer.all"|translate}} {{"navbar.categories"|translate}}</h2>
+
+       
+        <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 ">
+            @for (category of categoryList(); track category._id) {
+                <div (click)="getSubCategory(category._id,category.name)" class="card border bg-white rounded-md border-gray-200 hover:shadow-2xl hover:scale-105 transition-all duration-300 ">
+                    <img class="w-full  h-[250px] object-contain" [src]="category.image" [alt]="category.name">
+                    <div class="cardBody">
+                        <p class="text-2xl text-green-600 text-center my-2"> {{category.name}} </p>
+                    </div>
+                </div>
+            }
+           
+        </div>
+
+        @if (subOpen()) {
+            <div>
+                <h2 class="text-2xl text-green-600 font-bold text-center my-3"> {{categoryName()}} {{'navbar.subcategories'|translate}} </h2>
+            
+                <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 ">
+                    @for (subCategory of subCategoryList(); track subCategory._id) {
+                        <div class="card border bg-white rounded-md border-gray-200 hover:shadow-2xl hover:scale-105 transition-all duration-300 ">
+                            <div class="cardBody">
+                                <p class="text-2xl font-bold text-center my-2 p-5 text-gray-800"> {{subCategory.name}} </p>
+                            </div>
+                        </div>
+                    }
+                   
+                </div>
+            </div>
+        }
+        
+       
+    </div>
+</section>

@@ -41,9 +41,20 @@
                                 <span> {{productDetails.ratingsAverage}} </span>
                         </div>
                     </div>
-                    <button class="border text-white bg-green-500 rounded-md px-10 py-2 w-full" (click)="addToCart(productDetails._id)">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                        {{"details.Cart"|translate}}</button>
+                    <div class="flex items-center justify-center space-x-2">
+                        <button class="border text-white bg-green-500 rounded-md px-10 py-2 w-[90%] block mx-auto" (click)="addToCart(productDetails.id)" >
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            {{"home.Cart"|translate}}</button>
+                            @if(wishList().includes(productDetails.id)){
+                                <i  (click)="handelDeleteFromWishList(productDetails.id)" class="fa-solid fa-heart text-red-500 text-3xl pe-1"></i>
+            
+                            }
+                            @else {
+                                <i (click)="handelAddToWishList(productDetails.id)" class="fa-solid fa-heart text-3xl pe-1"></i>
+            
+                            }
+            
+                        </div>
     
                 </div>
             </div>

@@ -14,8 +14,8 @@ export class CategoriesService {
     return this.httpClient.get(`${environment.baseUrl}/api/v1/categories`)
   }
 
-  getSpecificCategories(id:string|null):Observable<any>{
-    return this.httpClient.get(`https://ecommerce.routemisr.com/api/v1/categories/${id}`)
+  getSpecificCategories(id:string):Observable<any>{
+    return this.httpClient.get(`${environment.baseUrl}/api/v1/categories/${id}`)
   }
 
 

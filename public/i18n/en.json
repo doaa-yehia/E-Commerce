@@ -4,10 +4,12 @@
     "products":"Products",
     "categories":"Categories",
     "brands":"Brands",
+    "wishList":"wishList",
     "register":"Register",
     "login":"LogIn",
     "logOut":"LogOut",
-    "lang":"Lang"
+    "lang":"Lang",
+    "subcategories":"subcategories"
   },
   "footer":{
     "Get":"Get",
@@ -176,7 +178,9 @@
     "Shop":"Shop",
     "Cart":"Cart",
     "Price":"Price",
-    "Payment":"Payment"
+    "Payment":"Payment",
+    "wish":"my wishList",
+    "products":"products"
 
   },
   "checkout":{

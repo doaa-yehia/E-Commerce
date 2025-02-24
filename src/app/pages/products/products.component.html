@@ -1,7 +1,10 @@
-<section>
+<section class="my-10">
     <h2 class="uppercase font-bold text-3xl  pb-4">{{"footer.all"|translate}} {{"navbar.products"|translate}}</h2>
+    
+    <input [(ngModel)]="text"  type="search"  placeholder="Search By Name....." class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg w-3/4 mx-auto my-5 focus:ring-green-500 focus:border-green-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500">
+
     <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-10">
-        @for (product of products; track product.id) {
+        @for (product of products |search:text(); track product.id) {
         <div class="card border  bg-white border-green-400/50 rounded-md overflow-hidden shadow relative">
          <div [routerLink]="['/details',product.id]">
             <picture class="card-img">
@@ -20,9 +23,20 @@
             </div>
 
          </div>
+             <div class="flex items-center justify-center space-x-2">
             <button class="border text-white bg-green-500 rounded-md px-10 py-2 w-[90%] block mx-auto" (click)="addToCart(product.id)" >
                 <i class="fa-solid fa-cart-shopping"></i>
-                {{"cart.Cart"|translate}}</button>
+                {{"home.Cart"|translate}}</button>
+                @if(wishList().includes(product.id)){
+                    <i  (click)="handelDeleteFromWishList(product.id)" class="fa-solid fa-heart text-red-500 text-2xl pe-1"></i>
+
+                }
+                @else {
+                    <i (click)="handelAddToWishList(product.id)" class="fa-solid fa-heart text-2xl pe-1"></i>
+
+                }
+
+            </div>
         </div>
         }
 

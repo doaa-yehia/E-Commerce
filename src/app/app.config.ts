@@ -28,13 +28,15 @@ export const appConfig: ApplicationConfig = {
   provideAnimations(),
   provideToastr(),
   importProvidersFrom([SweetAlert2Module.forRoot()]),
-  importProvidersFrom(NgxSpinnerModule, TranslateModule.forRoot({
-    // defaultLanguage:'en',
-    loader: {
-      provide: TranslateLoader,
-      useFactory: HttpLoaderFactory,
-      deps: [HttpClient]
-    }
-  }))
-]
+  importProvidersFrom(NgxSpinnerModule),
+    importProvidersFrom(
+      TranslateModule.forRoot({
+        defaultLanguage:'en',
+        loader: {
+          provide: TranslateLoader,
+          useFactory: HttpLoaderFactory,
+          deps: [HttpClient]
+        }
+      })
+    )]
 };

@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { CartService } from '../../core/services/cart/cart.service';
 import { ICart } from '../../shared/interfaces/icart';
 import { CurrencyPipe } from '@angular/common';
@@ -21,12 +21,12 @@ export class CartComponent implements OnInit {
   }
   private readonly cartService = inject(CartService)
 
-  cartDetails:ICart={} as ICart;
+  cartDetails:WritableSignal<ICart>=signal({} as ICart) ;
   getCartData(): void {
     this.cartService.getLoggedUseCart().subscribe({
       next: (res) => {
         console.log(res.data);
-        this.cartDetails=res.data;
+        this.cartDetails.set(res.data);
       }
     })
   };
@@ -36,7 +36,9 @@ export class CartComponent implements OnInit {
     this.cartService.removeSpacificProdCart(id).subscribe({
       next:(res)=>{
         console.log(res);
-        this.cartDetails=res.data;
+        Swal.fire('Success','The Operation Was Successful','success' )
+        this.cartDetails.set(res.data);
+        this.cartService.cartItemsNum.set(res.numOfCartItems);
         
       }
     })
@@ -48,7 +50,7 @@ export class CartComponent implements OnInit {
     this.cartService.apdateCartQuantity(id,count).subscribe({
       next:(res)=>{
         console.log(res);
-        this.cartDetails=res.data
+        this.cartDetails.set(res.data)
         
       }
     })
@@ -63,7 +65,9 @@ export class CartComponent implements OnInit {
         if (res.message==="success") {
           
           Swal.fire('Success','The Operation Was Successful','success' )
-          this.cartDetails={} as ICart;
+          this.cartDetails.set({} as ICart);
+          this.cartService.cartItemsNum.set(0);
+
         }
 
       }

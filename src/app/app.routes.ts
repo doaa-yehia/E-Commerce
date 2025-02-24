@@ -28,6 +28,7 @@ export const routes: Routes = [
       { path: "brands", loadComponent: () => import('./pages/brands/brands.component').then(m => m.BrandsComponent), title: "brands" },
       { path: "cart", loadComponent: () => import('./pages/cart/cart.component').then(m => m.CartComponent), title: "cart" },
       { path: "categories", loadComponent: () => import('./pages/categories/categories.component').then(m => m.CategoriesComponent), title: "categories" },
+      { path: "wishList", loadComponent: () => import('./pages/wish-list/wish-list.component').then(m => m.WishListComponent), title: "wishList" },
       { path: "allorders", loadComponent: () => import('./pages/allorders/allorders.component').then(m => m.AllordersComponent), title: "allorders" },
       { path: "checkout/:id", loadComponent: () => import('./pages/checkout/checkout.component').then(m => m.CheckoutComponent), title: "checkout" },
       { path: "products", loadComponent: () => import('./pages/products/products.component').then(m => m.ProductsComponent), title: "products" },

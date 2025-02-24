@@ -1,0 +1,43 @@
+<section class="w-[75%] mx-auto py-7">
+    <div class="container">
+        <div class=" bg-gray-200 p-3">
+            <h2 class="text-center font-extrabold text-green-700 text-2xl mt-2 capitalize">{{"cart.wish"|translate}}
+                {{"cart.products"|translate}}: </h2>
+
+
+            @for (product of wishListProducts(); track product._id) {
+            <div class="grid md:grid-cols-[10%_minmax(0,1fr)] gap-4 border-b border-b-gray-300">
+                <picture>
+                    <img class="w-full h-[110px] object-contain " [src]="product.imageCover"
+                        [alt]="product.title">
+                </picture>
+                <div class="flex items-center justify-between space-x-3">
+                    <article>
+                        <h3 class="text-lg"> {{product.title}} </h3>
+                        <p class="text-lg capitalize text-green-700">{{"cart.Price"|translate}}: {{product.price
+                            |currency:'GBP'}} </p>
+                        <button class="hover:text-red-800  text-red-600 transition-all duration-300" type="button" 
+                        [swal]="{title:'Fresh Cart',text:'Are You Sure You Want to remove this product from Your WishList?',
+                        showCancelButton:true,    
+                        }"
+                        (confirm)="deleteFromWishList(product._id)">
+                        <i class="fas fa-trash-can text-red-600 hover:text-red-800 transition-all duration-300"></i>
+                            Remove
+                        </button>
+                    </article>
+                    <div class="flex items-center space-x-3 ">
+                        <button class="border text-white bg-green-500 hover:bg-green-600  rounded-md px-10 py-2 w-full transition-all duration-300" (click)="addToCart(product._id)">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            {{"details.Cart"|translate}}</button>
+        
+                    </div>
+                </div>
+
+            </div>
+            }
+
+        </div>
+
+    </div>
+    
+</section>

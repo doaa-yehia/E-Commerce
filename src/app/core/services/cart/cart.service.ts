@@ -1,7 +1,7 @@
 import { environment } from '../../../shared/environment/environment';
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Injectable, signal, WritableSignal } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +10,7 @@ export class CartService {
  
   constructor(private _HttpClient: HttpClient) { }
 
+  cartItemsNum:WritableSignal<number>=signal(0);
   AddProdutCart(id: string): Observable<any> {
     return this._HttpClient.post(`${environment.baseUrl}/api/v1/cart`,
       {

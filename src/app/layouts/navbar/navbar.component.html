@@ -1,6 +1,6 @@
 
 
-<nav class="bg-gray-100 border-gray-200 dark:bg-gray-900  transition-all duration-300 fixed z-[999999] top-0 left-0 right-0" [class.py-4]="scroll" >
+<nav class="bg-gray-100 border-gray-200 dark:bg-gray-900  transition-all duration-300 fixed z-[999999] top-0 left-0 right-0" [class.py-4]="scroll()" >
     <div class="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto px-4 py-2">
       <a routerLink="/home"
        class="flex items-center space-x-3 rtl:space-x-reverse">
@@ -28,6 +28,9 @@
                 <li>
                   <a routerLink="/brands" routerLinkActive="bg-green-600 rounded-full text-white " class="block py-2 px-3 text-gray-700  rounded-full  hover:bg-green-600 hover:rounded-full hover:text-white transition-all duration-300  " aria-current="page">{{"navbar.brands"|translate}}</a>
                 </li>
+                <li>
+                  <a routerLink="/wishList" routerLinkActive="bg-green-600 rounded-full text-white " class="block py-2 px-3 text-gray-700  rounded-full  hover:bg-green-600 hover:rounded-full hover:text-white transition-all duration-300  " aria-current="page">{{"navbar.wishList"|translate}}</a>
+                </li>
               </ul>
         }
        
@@ -44,10 +47,20 @@
             <div [class.hidden]="!isDropOpen()" id="dropdownNavbar" class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 dark:divide-gray-600">
                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton">
                   <li>
-                    <a (click)="change('en')" role="button" class="block px-4 py- rounded-full  hover:bg-green-600 hover:rounded-full hover:text-white transition-all duration-300  dark:hover:bg-gray-600 dark:hover:text-white my-1">EN</a>
+                    <a 
+                      [class.hidden]="currentLang('en')"
+                      (click)="change('en')" 
+                      role="button" 
+                      class="block px-4 py- rounded-full  hover:bg-green-600 hover:rounded-full hover:text-white transition-all duration-300  dark:hover:bg-gray-600 dark:hover:text-white my-1">
+                      EN</a>
                   </li>
                   <li>
-                    <a (click)="change('ar')" role="button" class="block px-4 py- rounded-full  hover:bg-green-600 hover:rounded-full hover:text-white transition-all duration-300  dark:hover:bg-gray-600 dark:hover:text-white my-1">AR</a>
+                    <a 
+                      [class.hidden]="currentLang('ar')"
+                      (click)="change('ar')" 
+                      role="button" 
+                      class="block px-4 py- rounded-full  hover:bg-green-600 hover:rounded-full hover:text-white transition-all duration-300  dark:hover:bg-gray-600 dark:hover:text-white my-1">
+                      AR</a>
                   </li>
                   
                 </ul>
@@ -88,7 +101,7 @@
               </li>
             @if (!isMain()) {
                 <li>
-                    <a routerLink="/register" routerLinkActive="bg-green-600 rounded-full text-white "  class="block py-2 px-3 text-gray-700  rounded-full  hover:bg-green-600 hover:rounded-full hover:text-white transition-all duration-300   " aria-current="page">{{"navbar.register|translate"}}</a>
+                    <a routerLink="/register" routerLinkActive="bg-green-600 rounded-full text-white "  class="block py-2 px-3 text-gray-700  rounded-full  hover:bg-green-600 hover:rounded-full hover:text-white transition-all duration-300   " aria-current="page">{{"navbar.register"|translate}}</a>
                   </li>
                   <li>
                     <a routerLink="/login" routerLinkActive="bg-green-600 rounded-full text-white"  class="block py-2 px-3 text-gray-700  rounded-full  hover:bg-green-600 hover:rounded-full hover:text-white transition-all duration-300   " aria-current="page">{{"navbar.login"|translate}}</a>
@@ -96,8 +109,10 @@
             }
             @else {
               <li>
-                <a routerLink= "/cart" routerLinkActive="bg-green-600 rounded-full text-white " class="block py-2 px-3 text-gray-700  rounded-full  hover:bg-green-600 hover:rounded-full hover:text-white transition-all duration-300  " aria-current="page">
-                  <i class="fa-solid fa-cart-shopping"></i>
+                <a routerLink= "/cart" routerLinkActive="bg-green-600 rounded-full text-white " class="block py-2 px-3 text-gray-700  rounded-full  hover:bg-green-600 hover:rounded-full hover:text-white transition-all duration-300 relative " aria-current="page">
+                  <i class="fa-solid fa-xl fa-cart-shopping"></i>
+                  <span class="inline-flex items-center rounded-md bg-green-500 px-2 py-1 text-xs font-medium text-white-700 ring-1 ring-green-600/20 ring-inset absolute top-[-5px] right-0">{{cartNumber()}}</span>
+
                 </a>
               </li> 
                 <li>

@@ -19,11 +19,11 @@ export class MyTranslateService {
       if (savedLang) {
         this.translateService.use(savedLang);
       }
-      this.changeDirectio();
+      this.changeDirection();
     }
    }
 
-   changeDirectio(){
+   changeDirection(){
     if (localStorage.getItem('lang')==='en') {
       this.renderer.setAttribute(document.documentElement,'dir','ltr');
       this.renderer.setAttribute(document.documentElement,'lang','en');
@@ -41,6 +41,6 @@ export class MyTranslateService {
     //use lang
     this.translateService.use(lang);
     //change Direction
-    this.changeDirectio();
+    this.changeDirection();
    }
 }

@@ -1,45 +1,57 @@
-<section class="w-[75%] mx-auto py-7" >
+<section class="w-[75%] mx-auto py-7">
     <div class="container">
         <div class=" bg-gray-200 p-3">
-            <h2 class="text-center font-extrabold text-green-700 text-2xl mt-2 ">{{"cart.Shop"|translate}} {{"cart.Cart"|translate}}: </h2>
-            
-            @if (cartDetails.totalCartPrice!==0||cartDetails.totalCartPrice==null ) {
-                <button class="text-sm bg-red-700 border rounded-lg text-white shadow-lg px-6 py-1 block ms-auto capitalize" 
-                [swal]="{title:'confirmation',text:'Are You Sure You Want to Clear Your Cart?',
+            <h2 class="text-center font-extrabold text-green-700 text-2xl mt-2 ">{{"cart.Shop"|translate}}
+                {{"cart.Cart"|translate}}: </h2>
+
+            @if (cartDetails().totalCartPrice!==0||cartDetails().totalCartPrice==null ) {
+            <button class="text-sm bg-red-700 border rounded-lg text-white shadow-lg px-6 py-1 block ms-auto capitalize"
+                [swal]="{title:'Fresh Cart',text:'Are You Sure You Want to Clear Your Cart?',
                     showCancelButton:true,
                     
-                }"
-                (confirm)="daleteCart()" >clear cart</button>
+                }" (confirm)="daleteCart()">clear cart</button>
             }
 
 
-            <p class="text-lg capitalize text-green-700 mb-3">Total cart Price: {{cartDetails.totalCartPrice | currency:'GBP'}} </p>
-            
-            @for (product of cartDetails.products; track product.product._id) {
-                <div class="grid md:grid-cols-[10%_minmax(0,1fr)] gap-4 border-b border-b-gray-300">
-                    <picture>
-                        <img class="w-full h-[110px] object-contain " [src]="product.product.imageCover" [alt]="product.product.title">
-                    </picture>
-                    <div class="flex items-center justify-between space-x-3"> 
-                        <article>
-                            <h3 class="text-lg"> {{product.product.title}} </h3>
-                            <p class="text-lg capitalize text-green-700">{{"cart.Price"|translate}}: {{product.price |currency:'GBP'}} </p>
-                            <button class="hover:text-gray-600" type="button" (click)="removeFromCart(product.product._id)"><i class="fas fa-trash-can text-green-700 "></i> Remove</button>
-                        </article>
-                        <div class="flex items-center space-x-3 ">
-                            <button class="text-3xl text-green-700 " (click)="updateItem(product.product._id,product.count+1)" >
-                                <i class="fa-regular fa-square-plus"></i></button> 
-                            <span> {{product.count}} </span>
-                            <button class="text-3xl text-green-700"(click)="updateItem(product.product._id,product.count-1)">
-                                <i class="fa-regular fa-square-minus"></i></button> 
-                        </div>
+            <p class="text-lg capitalize text-green-700 mb-3">Total cart Price: {{cartDetails().totalCartPrice |
+                currency:'GBP'}} </p>
+
+            @for (product of cartDetails().products; track product.product._id) {
+            <div class="grid md:grid-cols-[10%_minmax(0,1fr)] gap-4 border-b border-b-gray-300">
+                <picture>
+                    <img class="w-full h-[110px] object-contain " [src]="product.product.imageCover"
+                        [alt]="product.product.title">
+                </picture>
+                <div class="flex items-center justify-between space-x-3">
+                    <article>
+                        <h3 class="text-lg"> {{product.product.title}} </h3>
+                        <p class="text-lg capitalize text-green-700">{{"cart.Price"|translate}}: {{product.price
+                            |currency:'GBP'}} </p>
+                        <button class="hover:text-gray-600" type="button" 
+                        [swal]="{title:'Fresh Cart',text:'Are You Sure You Want to remove this product from Your Cart?',
+                        showCancelButton:true,    
+                        }"
+                        (confirm)="removeFromCart(product.product._id)"><i class="fas fa-trash-can text-green-700 "></i>
+                            Remove
+                        </button>
+                    </article>
+                    <div class="flex items-center space-x-3 ">
+                        <button class="text-3xl text-green-700 "
+                            (click)="updateItem(product.product._id,product.count+1)">
+                            <i class="fa-regular fa-square-plus"></i></button>
+                        <span> {{product.count}} </span>
+                        <button class="text-3xl text-green-700"
+                            (click)="updateItem(product.product._id,product.count-1)">
+                            <i class="fa-regular fa-square-minus"></i></button>
                     </div>
-                   
                 </div>
+
+            </div>
             }
-            
+
         </div>
 
     </div>
-    <button class="mainButton my-5" [routerLink]="['/checkout', cartDetails._id]" >{{"cart.Payment"|translate}}</button>
+    <button class="mainButton my-5"
+        [routerLink]="['/checkout', cartDetails()._id]">{{"cart.Payment"|translate}}</button>
 </section>
