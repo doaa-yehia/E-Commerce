@@ -60,7 +60,7 @@
 
     <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-10">
         @for (product of products().slice(0,12) |search: text().toLowerCase(); track product.id) {
-        <div class="card border  bg-white border-green-400/50 rounded-md overflow-hidden shadow relative">
+        <div class="card ">
          <div [routerLink]="['/details',product.id]">
             <picture class="card-img">
                 <img [src]="product.imageCover" class="w-full h-[250px] object-contain " [alt]="product.title" />

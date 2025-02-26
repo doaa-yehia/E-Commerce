@@ -1,26 +1,29 @@
-import { Component, inject } from '@angular/core';
+import { AfterViewChecked, Component, computed, inject, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
 import{AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 import { AuthService } from '../../core/services/autu/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { TranslatePipe } from '@ngx-translate/core';
+import { Subject, takeUntil } from 'rxjs';
 @Component({
   selector: 'app-register',
   imports: [ReactiveFormsModule,TranslatePipe],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnDestroy {
 
-  messageError:string='';
-  success:string='';
-// inject for auth Service
+ 
+  
+  // inject for auth Service
   private readonly authService=inject(AuthService);
-
-// inject for auth Service
+  
+  // inject for auth Service
   private readonly router=inject(Router);
-
+  
+  $sub:Subject<void>=new Subject();
+  loading:WritableSignal<boolean>=signal(false);
 
 
   // register Form
@@ -30,7 +33,7 @@ export class RegisterComponent {
     password:new FormControl(null,[Validators.required,Validators.pattern(/^[A-Z]\w{5,}$/)]),
     rePassword:new FormControl(null,[Validators.required]),
     phone:new FormControl(null,[Validators.required,Validators.pattern(/^01[0-2,5]{1}[0-9]{8}$/)]),
-
+    
   }
   // put custom Validation
   ,{validators:this.confirmPassword}
@@ -46,13 +49,14 @@ export class RegisterComponent {
 
   }
 
-  loading:boolean=false;
   // submit action
   submitForm():void{
-    this.loading=true;
     console.log(this.registerForm)
     if(this.registerForm.valid){
-      this.authService.getSingUp(this.registerForm.value).subscribe({
+      this.loading.set(true);
+      // this.disabled.set(false);
+
+      this.authService.getSingUp(this.registerForm.value).pipe(takeUntil(this.$sub)).subscribe({
         next:(res)=>{
           console.log(res);
           if(res.message==="success"){
@@ -63,34 +67,33 @@ export class RegisterComponent {
             
           }, 700);
         }
-          this.loading=false;
-          this.success=res.message;
+          this.loading.set(false);
+
           Swal.fire({
             icon: "success",
             title: "Success Operation",
-            text: this.success,
+            text: res.message,
           });
 
           
         },
-        error:(err:HttpErrorResponse)=>{
-          console.log(err);
-          // show message for user
-          this.messageError=err.error.message;
-
-          Swal.fire({
-            icon: "error",
-            title: "Error...",
-            text: this.messageError,
-          });
-          
-          this.loading=false;
-          
+        error:()=>{
+          this.loading.set(false)
         }
+        
+        
       })
     }else{
       this.registerForm.markAllAsTouched();
     }
+    
+
   }
+
+  ngOnDestroy(): void {
+    this.$sub.next();
+    this.$sub.unsubscribe();
+  }
+
 
 }

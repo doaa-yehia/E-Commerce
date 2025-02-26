@@ -1,9 +1,10 @@
-import { Component, computed, HostListener, inject, input, InputSignal, OnInit, Signal, signal, WritableSignal } from '@angular/core';
+import { Component, computed, HostListener, inject, input, InputSignal, OnDestroy, OnInit, Signal, signal, WritableSignal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../core/services/autu/auth.service';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { MyTranslateService } from '../../core/services/myTraslate/my-translate.service';
 import { CartService } from '../../core/services/cart/cart.service';
+import { Subject, takeUntil } from 'rxjs';
 // import { MyTranslateService } from '../../core/services/myTraslate/my-translate.service';
 
 @Component({
@@ -12,7 +13,7 @@ import { CartService } from '../../core/services/cart/cart.service';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit,OnDestroy {
 
   readonly _AuthService=inject(AuthService);
   private readonly myTranslateService=inject(MyTranslateService); 
@@ -20,19 +21,17 @@ export class NavbarComponent implements OnInit {
   private readonly cartService=inject(CartService);
 
 
-  isMain:InputSignal<boolean>=input<boolean>(true);
+  isMain:InputSignal<boolean>=input(true);
 
   isMenuOpen:WritableSignal<boolean>=signal(false);
   isDropOpen:WritableSignal<boolean>=signal(false);
   cartNumber:Signal<number>=computed(()=>this.cartService.cartItemsNum());
+  $sub:Subject<void>=new Subject();
+
 
   ngOnInit(): void {
-    // this.cartService.cartItemsNum.subscribe({
-    //   next:(value)=>{
-    //     this.cartNumber=value;
-    //   }
-    // });
-    this.cartService.getLoggedUseCart().subscribe({
+    
+    this.cartService.getLoggedUseCart().pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
         this.cartService.cartItemsNum.set(res.numOfCartItems);
       }
@@ -63,6 +62,10 @@ export class NavbarComponent implements OnInit {
 
   currentLang(lang:string):boolean{
     return this.translateService.currentLang===lang;
+  }
+  ngOnDestroy(): void {
+    this.$sub.next();
+    this.$sub.unsubscribe();
   }
 
 }

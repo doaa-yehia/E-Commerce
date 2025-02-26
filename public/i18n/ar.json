@@ -198,7 +198,7 @@
       "Payment": "الدفع"
     },
     "allorders": {
-      "last": "آخر",
+      " current": "الحالى",
       "order": "طلب",
       "total": "الإجمالي",
       "price": "السعر",

@@ -1,8 +1,10 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { OrderService } from '../../core/services/order/order.service';
 import { TranslatePipe } from '@ngx-translate/core';
+import { Subject, takeUntil } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-checkout',
@@ -10,17 +12,22 @@ import { TranslatePipe } from '@ngx-translate/core';
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.scss'
 })
-export class CheckoutComponent implements OnInit {
+export class CheckoutComponent implements OnInit,OnDestroy {
   
   private readonly _ActivatedRoute=inject(ActivatedRoute);
   private readonly _OrderService=inject(OrderService);
+  private readonly toastrService=inject(ToastrService);
 
-  cartId:string='';
+
+  $sub:Subject<void>=new Subject();
+
+  cartId:WritableSignal<string>=signal('');
+  loading:WritableSignal<boolean>=signal(false);
 
 
   ngOnInit(): void {
     this._ActivatedRoute.paramMap.subscribe((param)=>{
-      this.cartId=param.get('id') !;
+      this.cartId.set(param.get('id') !);
       
     })
   }
@@ -32,22 +39,44 @@ export class CheckoutComponent implements OnInit {
   
   checkOutSession():void{
     this._OrderService.
-    getCheckOutSession(this.cartId,this.checkOutForm.value)
+    getCheckOutSession(this.cartId(),this.checkOutForm.value).pipe(takeUntil(this.$sub))
     .subscribe({
       next:(res)=>{
         console.log(res);
         if(res.status==="success"){
+          this.loading.set(false);
+
+          this.toastrService.success(res.status,'Fresh Cart');
+          
           // open url stripe
           open(res.session.url,'_self')
         }
         
+      },
+      error:()=>{
+        this.loading.set(false);
+
       }
     })
   }
 
   submitForm():void{
     console.log(this.checkOutForm.value);
-    this.checkOutSession();
+    if(this.checkOutForm.valid){
+      this.loading.set(true);
+      this.checkOutSession();
+      
+    }else{
+      this.checkOutForm.markAllAsTouched();
+    }
     
   }
+
+  ngOnDestroy(): void {
+    this.$sub.next();
+    this.$sub.subscribe();
+  }
 }
+
+
+

@@ -154,9 +154,9 @@
             }
         </div>
     <div class="flex justify-end items-center">
-        <button [disabled]="loading" type="submit"  class=" mainButton mb-2 ">
+        <button [disabled]="registerForm.invalid" type="submit"  class=" mainButton mb-2 ">
             {{"register.SingUp"|translate}}
-            @if (loading) {
+            @if (loading()) {
                 <i class="fas fa-spin fa-spinner"></i>
             }
         </button>

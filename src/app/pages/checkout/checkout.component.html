@@ -87,7 +87,13 @@
         }
     </div>
 
-    <button class="mainButton mt-3 block ms-auto">{{"checkout.Online"|translate}} {{"checkout.Payment"|translate}}</button>
+    <button [disabled]="checkOutForm.invalid" class="mainButton mt-3 block ms-auto">
+      {{"checkout.Online"|translate}} {{"checkout.Payment"|translate}}
+      @if (loading()) {
+        <i class="fas fa-spin fa-spinner"></i>
+
+      }
+    </button>
 </form>
  
 </section>

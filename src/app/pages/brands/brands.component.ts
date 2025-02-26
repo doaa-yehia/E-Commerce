@@ -1,9 +1,11 @@
-import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { BrandsService } from '../../core/services/brands/brands.service';
 import { ISubCategory } from '../../shared/interfaces/isub-category';
 import { ICategory } from '../../shared/interfaces/icategory';
 import Swal from 'sweetalert2';
+import { Subject } from 'rxjs/internal/Subject';
+import { takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-brands',
@@ -11,7 +13,7 @@ import Swal from 'sweetalert2';
   templateUrl: './brands.component.html',
   styleUrl: './brands.component.scss'
 })
-export class BrandsComponent implements OnInit {
+export class BrandsComponent implements OnInit,OnDestroy {
 
   private readonly brandsService = inject(BrandsService)
 
@@ -20,6 +22,10 @@ export class BrandsComponent implements OnInit {
   brandItem: WritableSignal<ICategory> = signal({} as ICategory)
 
   isModelOpen = signal(false);
+
+  $sub:Subject<void>=new Subject();
+
+
   toggleModel() {
     this.isModelOpen.set(!this.isModelOpen());
   }
@@ -27,7 +33,7 @@ export class BrandsComponent implements OnInit {
     this.getAllBrands();
   }
   getAllBrands(): void {
-    this.brandsService.getAllBrands().subscribe({
+    this.brandsService.getAllBrands().pipe(takeUntil(this.$sub)).subscribe({
       next: (res) => {
         console.log(res);
         this.brandsList.set(res.data);
@@ -38,7 +44,7 @@ export class BrandsComponent implements OnInit {
   
   getBrand(id: string) {
     console.log(id);
-    this.brandsService.getSpecificBrand(id).subscribe({
+    this.brandsService.getSpecificBrand(id).pipe(takeUntil(this.$sub)).subscribe({
       next: (res) => {
         console.log(res.data);
         this.brandItem.set(res.data)
@@ -74,6 +80,11 @@ export class BrandsComponent implements OnInit {
       `,
       cancelButtonAriaLabel: "Thumbs down"
     });
+  }
+
+  ngOnDestroy(): void {
+    this.$sub.next();
+    this.$sub.unsubscribe();
   }
 
 }

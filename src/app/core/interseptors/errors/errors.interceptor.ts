@@ -12,6 +12,15 @@ export const errorsInterceptor: HttpInterceptorFn = (req, next) => {
     if(!req.url.includes('auth')){
       toastrService.error(err.error.message,'FreshCart')
 
+    }else if(req.url.includes('verifyResetCode')){
+      toastrService.error(err.error.message,'FreshCart')
+
+    }else if(req.url.includes('auth')){
+       Swal.fire({
+          icon: "error",
+          title: "FreshCart...",
+          text: err.error.message,
+          });
     }
 
     return throwError( ()=> err )

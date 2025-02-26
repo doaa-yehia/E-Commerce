@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, Signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal, Signal, WritableSignal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProductsService } from '../../core/services/products/products.service';
 import { IProduct } from '../../shared/interfaces/iproduct';
@@ -8,6 +8,7 @@ import { CartService } from '../../core/services/cart/cart.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslatePipe } from '@ngx-translate/core';
 import { WichListService } from '../../core/services/wichList/wich-list.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-details',
@@ -24,8 +25,10 @@ export class DetailsComponent implements OnInit {
   private readonly wichListService=inject(WichListService)
 
 
-  productDetails:IProduct|null=null;
+  productDetails:WritableSignal<IProduct>=signal ({} as IProduct);
   wishList: Signal<string[]>=computed( ()=>this.wichListService.wishListIds())
+  
+  $sub:Subject<void>=new Subject();
 
 
   productImages: OwlOptions = {
@@ -67,7 +70,7 @@ export class DetailsComponent implements OnInit {
         this._ProductsService.getSpecificProducts(productId).subscribe({
           next:(res)=>{
             console.log(res.data);
-            this.productDetails=res.data;
+            this.productDetails.set(res.data);
           }
         })
         
@@ -78,9 +81,10 @@ export class DetailsComponent implements OnInit {
   }
 
   addToCart(id:string){
-    this.cartService.AddProdutCart(id).subscribe({
+    this.cartService.AddProdutCart(id).pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
         console.log(res);
+        this.cartService.cartItemsNum.set(res.numOfCartItems);
         this._ToastrService.success(res.message,"added to Cart")
       },
       error:(err)=>{
@@ -91,7 +95,7 @@ export class DetailsComponent implements OnInit {
   }
 
     getwishList():void{
-    this.wichListService.getLoggedWishList().subscribe({
+    this.wichListService.getLoggedWishList().pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
         this.wichListService.wishListIds.set(res.data.map((product:IProduct)=>{
           return product._id;
@@ -102,7 +106,7 @@ export class DetailsComponent implements OnInit {
     })
   }
   handelAddToWishList(id:string):void{
-    this.wichListService.addToWishList(id).subscribe({
+    this.wichListService.addToWishList(id).pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
         this._ToastrService.success(res.message,'Added To WishList');
         this.wichListService.wishListIds.set(res.data);
@@ -113,7 +117,7 @@ export class DetailsComponent implements OnInit {
   }
 
   handelDeleteFromWishList(id:string):void{
-    this.wichListService.removeFromWishList(id).subscribe({
+    this.wichListService.removeFromWishList(id).pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
         this._ToastrService.success(res.message,'deleted from WishList');
        this.getwishList();
@@ -121,4 +125,8 @@ export class DetailsComponent implements OnInit {
     })
   }
 
+  ngOnDestroy(): void {
+    this.$sub.next();
+    this.$sub.subscribe();
+  }
 }

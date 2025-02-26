@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
 import { CartService } from '../../core/services/cart/cart.service';
 import { ICart } from '../../shared/interfaces/icart';
 import { CurrencyPipe } from '@angular/common';
@@ -6,6 +6,7 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import Swal from 'sweetalert2';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
+import { Subject, takeUntil } from 'rxjs';
 
 
 @Component({
@@ -14,7 +15,7 @@ import { TranslatePipe } from '@ngx-translate/core';
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss'
 })
-export class CartComponent implements OnInit {
+export class CartComponent implements OnInit,OnDestroy {
 
   ngOnInit(): void {
     this.getCartData();
@@ -22,8 +23,12 @@ export class CartComponent implements OnInit {
   private readonly cartService = inject(CartService)
 
   cartDetails:WritableSignal<ICart>=signal({} as ICart) ;
+  
+  $sub:Subject<void>=new Subject();
+
+ 
   getCartData(): void {
-    this.cartService.getLoggedUseCart().subscribe({
+    this.cartService.getLoggedUseCart().pipe(takeUntil(this.$sub)).subscribe({
       next: (res) => {
         console.log(res.data);
         this.cartDetails.set(res.data);
@@ -33,7 +38,7 @@ export class CartComponent implements OnInit {
 
   removeFromCart(id:string):void{
     console.log(id);
-    this.cartService.removeSpacificProdCart(id).subscribe({
+    this.cartService.removeSpacificProdCart(id).pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
         console.log(res);
         Swal.fire('Success','The Operation Was Successful','success' )
@@ -47,7 +52,7 @@ export class CartComponent implements OnInit {
   };
 
   updateItem(id:string,count:number):void{
-    this.cartService.apdateCartQuantity(id,count).subscribe({
+    this.cartService.apdateCartQuantity(id,count).pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
         console.log(res);
         this.cartDetails.set(res.data)
@@ -55,9 +60,10 @@ export class CartComponent implements OnInit {
       }
     })
   };
+
   daleteCart():void{
     console.log('hello');
-    this.cartService.clearCart().subscribe({
+    this.cartService.clearCart().pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
         console.log(res);
         
@@ -73,7 +79,13 @@ export class CartComponent implements OnInit {
       }
     })
     
-  }
+  };
+
+  ngOnDestroy(): void {
+    this.$sub.next();
+    this.$sub.unsubscribe();
+  };
+
 
 }
 

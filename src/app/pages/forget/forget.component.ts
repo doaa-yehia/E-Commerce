@@ -1,8 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnDestroy, signal, WritableSignal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../core/services/autu/auth.service';
 import { Router } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-forget',
@@ -10,14 +12,16 @@ import { TranslatePipe } from '@ngx-translate/core';
   templateUrl: './forget.component.html',
   styleUrl: './forget.component.scss'
 })
-export class ForgetComponent {
+export class ForgetComponent implements OnDestroy {
   private readonly _AuthService=inject(AuthService);
   private readonly _Router=inject(Router);
+  // private readonly toastrService=inject(ToastrService)
+ 
+  step:WritableSignal<number>=signal(1);
+  loading:WritableSignal<boolean>=signal(false);
 
-  step:number=1;
-  loading:boolean=false;
-  curentEmail:string='';
-
+    $sub:Subject<void>=new Subject();
+  
   verifyEmail:FormGroup=new FormGroup({
     email:new FormControl(null,[Validators.required,Validators.email])
   })
@@ -39,36 +43,45 @@ export class ForgetComponent {
     // put value of email in the resetPassword form
     this.resetPassword.get('email')?.patchValue(emailValue);
     
-    this.loading=true;
-    this._AuthService.getEmailVerify(this.verifyEmail.value).subscribe({
+    this.loading.set(true);
+    this._AuthService.getEmailVerify(this.verifyEmail.value).pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
         console.log(res);
         if(res.statusMsg==="success"){
-          this.step++;
+          this.step.update( (value)=>value + 1 );
+        
         }
         
-        this.loading=false;
+        this.loading.set(false);
       }
     })
   }
   
   submitCode():void{
-    this.loading=true;
-    this._AuthService.getCodeVerify(this.verifyCode.value).subscribe({
+    this.loading.set(true);
+    this._AuthService.getCodeVerify(this.verifyCode.value).pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
         console.log(res);
         if(res.status==="Success"){
-          this.step++;
+          this.step.update( (value)=>value + 1 );
         }
-        this.loading=false;
+        this.loading.set(false);
         
+      },
+      error:()=>{
+
+        this.loading.set(false);
+
       }
+
     })
+    // this.loading.set(false);
+
   }
 
   submitVerifyRebassword():void{
-    this.loading=true;
-    this._AuthService.getRepassword(this.resetPassword.value).subscribe({
+    this.loading.set(true);
+    this._AuthService.getRepassword(this.resetPassword.value).pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
         console.log(res);
         // save token in localStorage
@@ -80,10 +93,15 @@ export class ForgetComponent {
         // navigate to login page
         this._Router.navigate(['/home']);
         
-        this.loading=false;
+        this.loading.set(false);
       }
     })
   }
 
+
+  ngOnDestroy(): void {
+    this.$sub.next();
+    this.$sub.subscribe();
+  }
 
 }

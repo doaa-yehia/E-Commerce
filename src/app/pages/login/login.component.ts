@@ -1,10 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnDestroy, signal, WritableSignal } from '@angular/core';
 import{AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 import { AuthService } from '../../core/services/autu/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router, RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';
 import { TranslatePipe } from '@ngx-translate/core';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -12,15 +13,17 @@ import { TranslatePipe } from '@ngx-translate/core';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-export class LoginComponent {
-  messageError:string='';
-  success:string='';
+export class LoginComponent implements OnDestroy {
+  
 // inject for auth Service
   private readonly authService=inject(AuthService);
 
 // inject for auth Service
   private readonly router=inject(Router);
 
+  loading:WritableSignal<boolean>=signal(false);
+
+  $sub:Subject<void>=new Subject();
 
 
   // logIn Form
@@ -31,17 +34,19 @@ export class LoginComponent {
   }
 
   );
+ 
 
-
-  loading:boolean=false;
   // submit action
   submitForm():void{
-    this.loading=true;
-    console.log(this.loginForm)
+    // console.log(this.loginForm)
     if(this.loginForm.valid){
-      this.authService.getSingIn(this.loginForm.value).subscribe({
+      this.loading.set(true);
+      console.log(this.loading());
+
+      this.authService.getSingIn(this.loginForm.value).pipe(takeUntil(this.$sub)).subscribe({
         next:(res)=>{
           console.log(res);
+          
           if(res.message==="success"){
 
           setTimeout(() => {
@@ -56,28 +61,28 @@ export class LoginComponent {
             
           }, 700);
         }
-          this.loading=false;
-          this.success=res.message;
+          this.loading.set(false);
         Swal.fire({
                     icon: "success",
                     title: "Success Operation",
-                    text: this.success,
+                    text: res.message,
                   });
           
         },
-        error:(err:HttpErrorResponse)=>{
-          console.log(err);
-          // show message for user
-          this.messageError=err.error.message;
-          Swal.fire({
-                      icon: "error",
-                      title: "Oops...",
-                      text: this.messageError,
-                    });
-          this.loading=false;
-          
+        error:()=>{
+
+          this.loading.set(false);
+  
         }
+        
       })
+
     }
+
+  }
+
+  ngOnDestroy(): void {
+    this.$sub.next();
+    this.$sub.subscribe();
   }
 }

@@ -1,11 +1,11 @@
-<section class="w-[75%] mx-auto py-7">
+<section class="w-[75%] mx-auto my-10">
     <div class="container">
         <div class=" bg-gray-200 p-3">
             <h2 class="text-center font-extrabold text-green-700 text-2xl mt-2 ">{{"cart.Shop"|translate}}
                 {{"cart.Cart"|translate}}: </h2>
 
             @if (cartDetails().totalCartPrice!==0||cartDetails().totalCartPrice==null ) {
-            <button class="text-sm bg-red-700 border rounded-lg text-white shadow-lg px-6 py-1 block ms-auto capitalize"
+            <button class="text-sm bg-red-700 border rounded-lg text-white shadow-lg px-6 py-1 block ms-auto capitalize hover:bg-red-900 transition-all duration-300"
                 [swal]="{title:'Fresh Cart',text:'Are You Sure You Want to Clear Your Cart?',
                     showCancelButton:true,
                     
@@ -13,11 +13,11 @@
             }
 
 
-            <p class="text-lg capitalize text-green-700 mb-3">Total cart Price: {{cartDetails().totalCartPrice |
+            <p class="text-lg capitalize text-green-700"><span class="text-green-700 font-semibold">Total cart Price :</span> {{cartDetails().totalCartPrice |
                 currency:'GBP'}} </p>
 
             @for (product of cartDetails().products; track product.product._id) {
-            <div class="grid md:grid-cols-[10%_minmax(0,1fr)] gap-4 border-b border-b-gray-300">
+            <div class="grid md:grid-cols-[10%_minmax(0,1fr)] gap-4  my-3">
                 <picture>
                     <img class="w-full h-[110px] object-contain " [src]="product.product.imageCover"
                         [alt]="product.product.title">
@@ -27,11 +27,11 @@
                         <h3 class="text-lg"> {{product.product.title}} </h3>
                         <p class="text-lg capitalize text-green-700">{{"cart.Price"|translate}}: {{product.price
                             |currency:'GBP'}} </p>
-                        <button class="hover:text-gray-600" type="button" 
+                        <button class="hover:text-red-900 text-red-500" type="button" 
                         [swal]="{title:'Fresh Cart',text:'Are You Sure You Want to remove this product from Your Cart?',
                         showCancelButton:true,    
                         }"
-                        (confirm)="removeFromCart(product.product._id)"><i class="fas fa-trash-can text-green-700 "></i>
+                        (confirm)="removeFromCart(product.product._id)"><i class="fas fa-trash-can text-red-500 hover:text-red-900"></i>
                             Remove
                         </button>
                     </article>
@@ -47,11 +47,14 @@
                 </div>
 
             </div>
+            @if(!$last){
+                <div class="bg-gray-600 h-px"></div>
+            }
             }
 
         </div>
 
     </div>
-    <button class="mainButton my-5"
+    <button class="mainButton my-5 ms-auto block"
         [routerLink]="['/checkout', cartDetails()._id]">{{"cart.Payment"|translate}}</button>
 </section>

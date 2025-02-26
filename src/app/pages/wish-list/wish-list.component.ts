@@ -7,6 +7,7 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import Swal from 'sweetalert2';
 import { CartService } from '../../core/services/cart/cart.service';
 import { ToastrService } from 'ngx-toastr';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-wish-list',
@@ -21,13 +22,14 @@ export class WishListComponent implements OnInit {
   private readonly toastrService=inject(ToastrService);
 
   wishListProducts:WritableSignal<IProduct[]>=signal([]);
-
+  $sub:Subject<void>=new Subject();
+ 
   ngOnInit(): void {
     this.getAllwishList();
   }
 
   getAllwishList():void{
-    this.wichListService.getLoggedWishList().subscribe({
+    this.wichListService.getLoggedWishList().pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
         console.log(res.data);
         this.wishListProducts.set(res.data);
@@ -37,7 +39,7 @@ export class WishListComponent implements OnInit {
   }
 
   deleteFromWishList(id:string):void{
-    this.wichListService.removeFromWishList(id).subscribe({
+    this.wichListService.removeFromWishList(id).pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
         if(res.status==="success"){
           Swal.fire('Success',res.message,'success' );
@@ -48,7 +50,7 @@ export class WishListComponent implements OnInit {
   }
 
   addToCart(id:string){
-    this.cartService.AddProdutCart(id).subscribe({
+    this.cartService.AddProdutCart(id).pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
         if (res.status==='success') {
           this.toastrService.success(res.message,"added to Cart");
@@ -58,6 +60,12 @@ export class WishListComponent implements OnInit {
       }
     })
   }
+
+  ngOnDestroy(): void {
+    this.$sub.next();
+    this.$sub.unsubscribe();
+  }
+
 
 
   

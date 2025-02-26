@@ -1,6 +1,6 @@
 <section>
     <h1 class="text-3xl text-black-950 font-extrabold text-center ">{{"forgot.Reset"|translate}} {{"forgot.Password"|translate}}</h1>
-   @if (step==1) {
+   @if (step()==1) {
     <form [formGroup]="verifyEmail" (ngSubmit)="submitVerifyEmail()" >
  
       <div class="mb-2">
@@ -35,14 +35,14 @@
       
         <button [disabled]="verifyEmail.invalid" type="submit"  class=" mainButton mb-2 ms-auto block">
               {{"forgot.verify"|translate}} {{"forgot.Email"|translate}}
-              @if (loading) {
+              @if (loading()) {
                   <i class="fas fa-spin fa-spinner"></i>
               }
           </button>
   </form>
    }
 
-   @if(step==2){
+   @if(step()==2){
  <form [formGroup]="verifyCode" (ngSubmit)="submitCode()" >
     
      
@@ -62,7 +62,6 @@
                   <div>
                       <ul class="mt-1.5 list-disc list-inside">
                         @if (verifyCode.get('resetCode')?.getError('required')) {
-                          <li>the Code is required</li>
                           <li>{{"register.the"|translate}} {{"forgot.Code"|translate}} {{"register.is"|translate}} {{"register.required"|translate}}</li>
 
                         } 
@@ -80,7 +79,7 @@
       
         <button [disabled]="verifyCode.invalid" type="submit"  class=" mainButton mb-2 ms-auto block ">
               {{"forgot.Verify"|translate}} {{"forgot.Code"|translate}}
-              @if (loading) {
+              @if (loading()) {
                   <i class="fas fa-spin fa-spinner"></i>
               }
           </button>
@@ -88,7 +87,7 @@
        </form>
    }
 
-   @if (step==3) {
+   @if (step()==3) {
     <form [formGroup]="resetPassword" (ngSubmit)="submitVerifyRebassword()" >
    
       <div class="mb-2">
@@ -97,28 +96,7 @@
           </label>
           <input readonly formControlName="email" type="email" id="email"  class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
           
-          <!-- @if (resetPassword.get('email')?.errors && resetPassword.get('email')?.touched) {
-              <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-                  <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
-                  </svg>
-                  <span class="sr-only">Danger</span>
-                  <div>
-                      <ul class="mt-1.5 list-disc list-inside">
-                        @if (resetPassword.get('email')?.getError('required')) {
-                          <li>the email is required</li>
-
-                        } 
-                        @else  {
-                          <li>Please enter a valid email address.</li>
-
-                        }
-
-                    </ul>
-                  </div>
-                </div>
-          } -->
-
+         
       </div>
   
       <div class="mb-2">
@@ -152,7 +130,7 @@
    
     <button [disabled]="resetPassword.invalid" type="submit"  class=" mainButton mb-2 ms-auto block ">
       {{"forgot.Verify"|translate}} {{"forgot.Email"|translate}}
-          @if (loading) {
+          @if (loading()) {
               <i class="fas fa-spin fa-spinner"></i>
           }
       </button>

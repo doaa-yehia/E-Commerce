@@ -1,10 +1,10 @@
-import { map } from 'rxjs';
+import { map, Subject, Subscription, takeUntil } from 'rxjs';
 import { IProduct } from './../../shared/interfaces/iproduct';
 import { RouterLink } from '@angular/router';
 import { CategoriesService } from '../../core/services/categories/categories.service';
 import { ICategory } from '../../shared/interfaces/icategory';
 import { ProductsService } from './../../core/services/products/products.service';
-import { Component, computed, inject, Input, OnInit, Signal, signal, ViewChild, WritableSignal } from '@angular/core';
+import { Component, computed, inject, Input, OnDestroy, OnInit, Signal, signal, ViewChild, WritableSignal } from '@angular/core';
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { CurrencyPipe } from '@angular/common';
 import { CartService } from '../../core/services/cart/cart.service';
@@ -21,7 +21,7 @@ import { WichListService } from '../../core/services/wichList/wich-list.service'
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit,OnDestroy {
 
   mainSliderOptions: OwlOptions = {
     loop: true,
@@ -79,11 +79,10 @@ export class HomeComponent implements OnInit {
   products:WritableSignal<IProduct[]>=signal([]);
   categories:WritableSignal<ICategory[]>=signal([]);
   text:WritableSignal<string>=signal("");
-  clicked:WritableSignal<boolean>=signal(false);
+  wishList:Signal<string[]>=computed( ()=>this.wichListService.wishListIds() );
+  
+  $sub:Subject<void>=new Subject();
 
-  
-  wishList:Signal<string[]>=computed( ()=>this.wichListService.wishListIds() )
-  
   ngOnInit(): void {
     this.getProductsData();
     this.getCategoriesData();
@@ -92,7 +91,7 @@ export class HomeComponent implements OnInit {
   }
 
   addToCart(id:string){
-    this.cartService.AddProdutCart(id).subscribe({
+    this.cartService.AddProdutCart(id).pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
         console.log(res);
         this._ToastrService.success(res.message,"added to Cart");
@@ -104,7 +103,7 @@ export class HomeComponent implements OnInit {
   }
 
   getProductsData():void{
-    this.productsService.getAllProducts().subscribe({
+    this.productsService.getAllProducts().pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
         this.products.set(res.data);
      console.log(this.products());
@@ -114,7 +113,7 @@ export class HomeComponent implements OnInit {
   }
 
   getCategoriesData():void{
-    this.categoriesService.getAllCategories().subscribe({
+    this.categoriesService.getAllCategories().pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
         this.categories.set(res.data);
         console.log(this.categories());
@@ -126,7 +125,7 @@ export class HomeComponent implements OnInit {
 
 
   getwishList():void{
-    this.wichListService.getLoggedWishList().subscribe({
+    this.wichListService.getLoggedWishList().pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
         this.wichListService.wishListIds.set(res.data.map((product:IProduct)=>{
           return product._id;
@@ -137,7 +136,7 @@ export class HomeComponent implements OnInit {
     })
   }
   handelAddToWishList(id:string):void{
-    this.wichListService.addToWishList(id).subscribe({
+    this.wichListService.addToWishList(id).pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
         this._ToastrService.success(res.message,'Added To WishList');
         this.wichListService.wishListIds.set(res.data);
@@ -148,7 +147,7 @@ export class HomeComponent implements OnInit {
   }
 
   handelDeleteFromWishList(id:string):void{
-    this.wichListService.removeFromWishList(id).subscribe({
+    this.wichListService.removeFromWishList(id).pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
         this._ToastrService.success(res.message,'deleted from WishList');
        this.getwishList();
@@ -156,6 +155,9 @@ export class HomeComponent implements OnInit {
     })
   }
   
-
+  ngOnDestroy(): void {
+    this.$sub.next();
+    this.$sub.unsubscribe();
+  }
   
 }

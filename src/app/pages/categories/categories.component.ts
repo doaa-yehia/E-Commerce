@@ -1,5 +1,5 @@
 import { SubCategoriesService } from '../../core/services/subCategories/sub-categories.service';
-import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ProductsService } from '../../core/services/products/products.service';
 import { IProduct } from '../../shared/interfaces/iproduct';
@@ -7,6 +7,7 @@ import { ICategory } from '../../shared/interfaces/icategory';
 import { CategoriesService } from '../../core/services/categories/categories.service';
 import { ISubCategory } from '../../shared/interfaces/isub-category';
 import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-categories',
@@ -14,7 +15,7 @@ import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.scss'
 })
-export class CategoriesComponent implements OnInit{
+export class CategoriesComponent implements OnInit,OnDestroy{
   
   private readonly _ActivatedRoute=inject(ActivatedRoute)
   private readonly ProductsService=inject(ProductsService)
@@ -26,33 +27,22 @@ export class CategoriesComponent implements OnInit{
   subCategoryList:WritableSignal<ISubCategory[]>=signal([]);
   categoryName:WritableSignal<string>=signal("");
   subOpen:WritableSignal<boolean>=signal(false)
+ 
+  $sub:Subject<void>=new Subject();
+
   ngOnInit(): void {
-    // let id:any='';
-    // this._ActivatedRoute.paramMap.subscribe({
-    //   next:(p)=>{
-    //     id=p.get('id');
-    //     //logic to get spasific category
-    //     this.ProductsService.getAllProducts().subscribe({
-    //       next:(res)=>{
-    //         console.log(res.data);
-    //         this.categoryProducts=res.data.filter((item:IProduct)=>item.category._id==id)
-    //         console.log(this.categoryProducts);
-            
-    //       }
-    //     })
-    //   }
-    // })
+   
     this.getAllCategory();
 
   }
   getAllCategory():void{
-this.categoriesService.getAllCategories().subscribe({
-  next:(res)=>{
-    console.log(res);
-    this.categoryList.set(res.data);
-    console.log(this.categoryList());
-    
-    
+    this.categoriesService.getAllCategories().pipe(takeUntil(this.$sub)).subscribe({
+      next:(res)=>{
+        console.log(res);
+        this.categoryList.set(res.data);
+        console.log(this.categoryList());
+        
+        
   }
 })
   }
@@ -61,7 +51,7 @@ this.categoriesService.getAllCategories().subscribe({
     this.categoryName.set(name);
     this.subOpen.set(true);
 
-    this.subCategoriesService.getAllSubCategoryOnCategory(id).subscribe({
+    this.subCategoriesService.getAllSubCategoryOnCategory(id).pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
         console.log(res);
         this.subCategoryList.set(res.data);
@@ -72,8 +62,9 @@ this.categoriesService.getAllCategories().subscribe({
 
   }
 
-  getAllSubCategory(){
-
+  ngOnDestroy(): void {
+    this.$sub.next();
+    this.$sub.unsubscribe();
   }
 
   
