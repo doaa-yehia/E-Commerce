@@ -1,12 +1,9 @@
 import { SubCategoriesService } from '../../core/services/subCategories/sub-categories.service';
 import { Component, inject, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
-import { ProductsService } from '../../core/services/products/products.service';
-import { IProduct } from '../../shared/interfaces/iproduct';
 import { ICategory } from '../../shared/interfaces/icategory';
 import { CategoriesService } from '../../core/services/categories/categories.service';
 import { ISubCategory } from '../../shared/interfaces/isub-category';
-import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -17,9 +14,6 @@ import { Subject, takeUntil } from 'rxjs';
 })
 export class CategoriesComponent implements OnInit,OnDestroy{
   
-  private readonly _ActivatedRoute=inject(ActivatedRoute)
-  private readonly ProductsService=inject(ProductsService)
-
   private readonly categoriesService=inject(CategoriesService);
   private readonly subCategoriesService=inject(SubCategoriesService)
 
@@ -36,7 +30,7 @@ export class CategoriesComponent implements OnInit,OnDestroy{
 
   }
   getAllCategory():void{
-    this.categoriesService.getAllCategories().pipe(takeUntil(this.$sub)).subscribe({
+    this.categoriesService.getAllCategoriesWithShareReblay().pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
         console.log(res);
         this.categoryList.set(res.data);

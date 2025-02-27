@@ -94,17 +94,15 @@ export class DetailsComponent implements OnInit {
     })
   }
 
-    getwishList():void{
-    this.wichListService.getLoggedWishList().pipe(takeUntil(this.$sub)).subscribe({
+  haveWishListIds():void{
+    this.wichListService.getWishListIDs().pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
-        this.wichListService.wishListIds.set(res.data.map((product:IProduct)=>{
-          return product._id;
-        }))
-        console.log(this.wishList());
-        
+        console.log(res);
+        this.wichListService.wishListIds.set(res)
       }
     })
   }
+
   handelAddToWishList(id:string):void{
     this.wichListService.addToWishList(id).pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
@@ -120,7 +118,7 @@ export class DetailsComponent implements OnInit {
     this.wichListService.removeFromWishList(id).pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
         this._ToastrService.success(res.message,'deleted from WishList');
-       this.getwishList();
+       this.haveWishListIds();
       }
     })
   }

@@ -40,4 +40,15 @@ wishListIds:WritableSignal<string[]>=signal([]);
   getLoggedWishList():Observable<any>{
     return this.httpClient.get(environment.baseUrl+`/api/v1/wishlist`);
   }
+
+  getWishListIDs():Observable<any>{
+    return this.httpClient.get<any>(environment.baseUrl+`/api/v1/wishlist`).pipe(
+      map(res => res.data.map( (product:IProduct)=>{
+        let id:string='';
+        id=product._id;
+        return id;
+      } ))
+    )
+  }
+
 }

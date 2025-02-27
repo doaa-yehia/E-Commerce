@@ -31,3 +31,9 @@ export interface Subcategory {
   slug: string;
   category: string;
 }
+export interface Brand {
+  _id: string
+  name: string
+  slug: string
+  image: string
+}

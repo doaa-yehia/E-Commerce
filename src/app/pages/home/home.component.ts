@@ -86,9 +86,9 @@ export class HomeComponent implements OnInit,OnDestroy {
   ngOnInit(): void {
     this.getProductsData();
     this.getCategoriesData();
-    this.getwishList();
-
+    this.haveWishListIds();
   }
+
 
   addToCart(id:string){
     this.cartService.AddProdutCart(id).pipe(takeUntil(this.$sub)).subscribe({
@@ -103,38 +103,37 @@ export class HomeComponent implements OnInit,OnDestroy {
   }
 
   getProductsData():void{
-    this.productsService.getAllProducts().pipe(takeUntil(this.$sub)).subscribe({
+    this.productsService.getAllProductsWithSareRePlay().pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
         this.products.set(res.data);
-     console.log(this.products());
+        console.log(this.products());
         
       }
     })
   }
 
   getCategoriesData():void{
-    this.categoriesService.getAllCategories().pipe(takeUntil(this.$sub)).subscribe({
+    this.categoriesService.getAllCategoriesWithShareReblay().pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
         this.categories.set(res.data);
         console.log(this.categories());
+
         
       }
     })
   }
 
 
-
-  getwishList():void{
-    this.wichListService.getLoggedWishList().pipe(takeUntil(this.$sub)).subscribe({
+  haveWishListIds():void{
+    this.wichListService.getWishListIDs().pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
-        this.wichListService.wishListIds.set(res.data.map((product:IProduct)=>{
-          return product._id;
-        }))
-        console.log(this.wishList());
-        
+        console.log(res);
+        this.wichListService.wishListIds.set(res)
       }
     })
   }
+
+  
   handelAddToWishList(id:string):void{
     this.wichListService.addToWishList(id).pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
@@ -150,7 +149,7 @@ export class HomeComponent implements OnInit,OnDestroy {
     this.wichListService.removeFromWishList(id).pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
         this._ToastrService.success(res.message,'deleted from WishList');
-       this.getwishList();
+       this.haveWishListIds();
       }
     })
   }

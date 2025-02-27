@@ -33,7 +33,7 @@ export class BrandsComponent implements OnInit,OnDestroy {
     this.getAllBrands();
   }
   getAllBrands(): void {
-    this.brandsService.getAllBrands().pipe(takeUntil(this.$sub)).subscribe({
+    this.brandsService.getAllBrandsWithSharReplay().pipe(takeUntil(this.$sub)).subscribe({
       next: (res) => {
         console.log(res);
         this.brandsList.set(res.data);
