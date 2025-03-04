@@ -30,7 +30,7 @@ export const routes: Routes = [
       { path: "categories", loadComponent: () => import('./pages/categories/categories.component').then(m => m.CategoriesComponent), title: "categories" },
       { path: "wishList", loadComponent: () => import('./pages/wish-list/wish-list.component').then(m => m.WishListComponent), title: "wishList" },
       { path: "allorders", loadComponent: () => import('./pages/allorders/allorders.component').then(m => m.AllordersComponent), title: "allorders" },
-      { path: "checkout/:id", loadComponent: () => import('./pages/checkout/checkout.component').then(m => m.CheckoutComponent), title: "checkout" },
+      { path: "checkout/:id",loadComponent: () => import('./pages/checkout/checkout.component').then(m => m.CheckoutComponent), title: "checkout" },
       { path: "products", loadComponent: () => import('./pages/products/products.component').then(m => m.ProductsComponent), title: "products" },
       { path:"details/:id",loadComponent:()=>import('./pages/details/details.component').then(m=>m.DetailsComponent),title:"details"},
       { path: "**", loadComponent: () => import('./pages/notfound/notfound.component').then(m => m.NotfoundComponent), title: "notfound" }

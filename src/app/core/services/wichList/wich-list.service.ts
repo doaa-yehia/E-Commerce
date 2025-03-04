@@ -9,45 +9,46 @@ import { environment } from '../../../shared/environment/environment';
 })
 export class WichListService {
 
-  constructor(private httpClient:HttpClient) { }
-// result!:IProduct[];
-// getwishListIds(){
-// return this.httpClient.get(environment.baseUrl+`/api/v1/wishlist`).pipe(
-//   map( (result:any[])=>{
-//     let productIds:string[]=[]
-//     result.forEach(element => {
-//       productIds.push(element._id)
-//     });
-//     return productIds;
-//   } )
-// )
+  constructor(private httpClient: HttpClient) { }
+  // result!:IProduct[];
+  // getwishListIds(){
+  // return this.httpClient.get(environment.baseUrl+`/api/v1/wishlist`).pipe(
+  //   map( (result:any[])=>{
+  //     let productIds:string[]=[]
+  //     result.forEach(element => {
+  //       productIds.push(element._id)
+  //     });
+  //     return productIds;
+  //   } )
+  // )
 
-// }
-wishListIds:WritableSignal<string[]>=signal([]);
-  
-  addToWishList(id:string):Observable<any>{
-    return this.httpClient.post(environment.baseUrl+`/api/v1/wishlist`,
+  // }
+  wishListIds: WritableSignal<string[]> = signal([]);
+
+  addToWishList(id: string): Observable<any> {
+    return this.httpClient.post(environment.baseUrl + `/api/v1/wishlist`,
       {
-       "productId": id,
+        "productId": id,
       }
     );
   }
 
-  removeFromWishList(id:string):Observable<any>{
-    return this.httpClient.delete(environment.baseUrl+`/api/v1/wishlist/${id}`);
+  removeFromWishList(id: string): Observable<any> {
+    return this.httpClient.delete(environment.baseUrl + `/api/v1/wishlist/${id}`);
   }
 
-  getLoggedWishList():Observable<any>{
-    return this.httpClient.get(environment.baseUrl+`/api/v1/wishlist`);
+  getLoggedWishList(): Observable<any> {
+    return this.httpClient.get(environment.baseUrl + `/api/v1/wishlist`);
   }
 
-  getWishListIDs():Observable<any>{
-    return this.httpClient.get<any>(environment.baseUrl+`/api/v1/wishlist`).pipe(
-      map(res => res.data.map( (product:IProduct)=>{
-        let id:string='';
-        id=product._id;
+  getWishListIDs(): Observable<any> {
+    return this.httpClient.get<any>(environment.baseUrl + `/api/v1/wishlist`).pipe(
+      map(res => res.data.map((product: IProduct) => {
+        let id: string = '';
+        id = product._id;
         return id;
-      } ))
+      })
+      )
     )
   }
 
