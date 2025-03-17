@@ -124,6 +124,7 @@
     "Verify":"Verify"
   },
   "register":{
+    "name":"Name",
     "Register":"Register",
     "Now":"Now",
     "the":"The",

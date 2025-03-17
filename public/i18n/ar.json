@@ -125,6 +125,7 @@
       "Verify": "تحقق"
     },
     "register": {
+      "name":"إسم",      
       "Register": "تسجيل",
       "Now": "الآن",
       "the": "مطلوب",

@@ -32,9 +32,7 @@ export class CategoriesComponent implements OnInit,OnDestroy{
   getAllCategory():void{
     this.categoriesService.getAllCategoriesWithShareReblay().pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
-        console.log(res);
         this.categoryList.set(res.data);
-        console.log(this.categoryList());
         
         
   }
@@ -47,9 +45,7 @@ export class CategoriesComponent implements OnInit,OnDestroy{
 
     this.subCategoriesService.getAllSubCategoryOnCategory(id).pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
-        console.log(res);
         this.subCategoryList.set(res.data);
-        console.log(this.subCategoryList());
 
       }
     })

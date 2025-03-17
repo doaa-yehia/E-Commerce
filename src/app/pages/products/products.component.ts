@@ -42,7 +42,6 @@ export class ProductsComponent implements OnInit,OnDestroy {
       this.productsService.getAllProductsWithSareRePlay().pipe(takeUntil(this.$sub)).subscribe({
         next:(res)=>{
           this.products.set(res.data);
-       console.log(res.data);
           
         }
       })
@@ -62,7 +61,6 @@ export class ProductsComponent implements OnInit,OnDestroy {
     haveWishListIds():void{
       this.wichListService.getWishListIDs().pipe(takeUntil(this.$sub)).subscribe({
         next:(res)=>{
-          console.log(res);
           this.wichListService.wishListIds.set(res)
         }
       })
@@ -73,7 +71,6 @@ export class ProductsComponent implements OnInit,OnDestroy {
         next:(res)=>{
           this._ToastrService.success(res.message,'Added To WishList');
           this.wichListService.wishListIds.set(res.data);
-          console.log(this.wishList());
           
         }
       })

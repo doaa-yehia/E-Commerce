@@ -93,10 +93,8 @@ export class HomeComponent implements OnInit,OnDestroy {
   addToCart(id:string){
     this.cartService.AddProdutCart(id).pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
-        console.log(res);
         this._ToastrService.success(res.message,"added to Cart");
         this.cartService.cartItemsNum.set(res.numOfCartItems);
-        console.log(this.cartService.cartItemsNum());
         
       }
     })
@@ -106,7 +104,6 @@ export class HomeComponent implements OnInit,OnDestroy {
     this.productsService.getAllProductsWithSareRePlay().pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
         this.products.set(res.data);
-        console.log(this.products());
         
       }
     })
@@ -116,7 +113,6 @@ export class HomeComponent implements OnInit,OnDestroy {
     this.categoriesService.getAllCategoriesWithShareReblay().pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
         this.categories.set(res.data);
-        console.log(this.categories());
 
         
       }
@@ -127,7 +123,6 @@ export class HomeComponent implements OnInit,OnDestroy {
   haveWishListIds():void{
     this.wichListService.getWishListIDs().pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
-        console.log(res);
         this.wichListService.wishListIds.set(res)
       }
     })
@@ -139,7 +134,6 @@ export class HomeComponent implements OnInit,OnDestroy {
       next:(res)=>{
         this._ToastrService.success(res.message,'Added To WishList');
         this.wichListService.wishListIds.set(res.data);
-        console.log(this.wishList());
         
       }
     })

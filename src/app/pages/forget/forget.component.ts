@@ -46,7 +46,6 @@ export class ForgetComponent implements OnDestroy {
     this.loading.set(true);
     this._AuthService.getEmailVerify(this.verifyEmail.value).pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
-        console.log(res);
         if(res.statusMsg==="success"){
           this.step.update( (value)=>value + 1 );
         
@@ -61,7 +60,6 @@ export class ForgetComponent implements OnDestroy {
     this.loading.set(true);
     this._AuthService.getCodeVerify(this.verifyCode.value).pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
-        console.log(res);
         if(res.status==="Success"){
           this.step.update( (value)=>value + 1 );
         }
@@ -75,7 +73,6 @@ export class ForgetComponent implements OnDestroy {
       }
 
     })
-    // this.loading.set(false);
 
   }
 
@@ -83,7 +80,6 @@ export class ForgetComponent implements OnDestroy {
     this.loading.set(true);
     this._AuthService.getRepassword(this.resetPassword.value).pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
-        console.log(res);
         // save token in localStorage
         localStorage.setItem('userToken',res.token);
         

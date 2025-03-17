@@ -42,7 +42,6 @@ export class CheckoutComponent implements OnInit,OnDestroy {
     getCheckOutSession(this.cartId(),this.checkOutForm.value).pipe(takeUntil(this.$sub))
     .subscribe({
       next:(res)=>{
-        console.log(res);
         if(res.status==="success"){
           this.loading.set(false);
 
@@ -61,7 +60,6 @@ export class CheckoutComponent implements OnInit,OnDestroy {
   }
 
   submitForm():void{
-    console.log(this.checkOutForm.value);
     if(this.checkOutForm.valid){
       this.loading.set(true);
       this.checkOutSession();

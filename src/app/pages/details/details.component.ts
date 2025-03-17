@@ -83,13 +83,8 @@ export class DetailsComponent implements OnInit {
   addToCart(id:string){
     this.cartService.AddProdutCart(id).pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
-        console.log(res);
         this.cartService.cartItemsNum.set(res.numOfCartItems);
         this._ToastrService.success(res.message,"added to Cart")
-      },
-      error:(err)=>{
-        console.log(err);
-        
       }
     })
   }
@@ -97,7 +92,6 @@ export class DetailsComponent implements OnInit {
   haveWishListIds():void{
     this.wichListService.getWishListIDs().pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
-        console.log(res);
         this.wichListService.wishListIds.set(res)
       }
     })
@@ -108,7 +102,6 @@ export class DetailsComponent implements OnInit {
       next:(res)=>{
         this._ToastrService.success(res.message,'Added To WishList');
         this.wichListService.wishListIds.set(res.data);
-        console.log(this.wishList());
         
       }
     })
@@ -118,7 +111,7 @@ export class DetailsComponent implements OnInit {
     this.wichListService.removeFromWishList(id).pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
         this._ToastrService.success(res.message,'deleted from WishList');
-       this.haveWishListIds();
+        this.haveWishListIds();
       }
     })
   }

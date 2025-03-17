@@ -38,14 +38,12 @@ export class LoginComponent implements OnDestroy {
 
   // submit action
   submitForm():void{
-    // console.log(this.loginForm)
+
     if(this.loginForm.valid){
       this.loading.set(true);
-      console.log(this.loading());
 
       this.authService.getSingIn(this.loginForm.value).pipe(takeUntil(this.$sub)).subscribe({
         next:(res)=>{
-          console.log(res);
           
           if(res.message==="success"){
 

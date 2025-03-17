@@ -32,7 +32,6 @@ export class AllordersComponent implements OnInit,OnDestroy {
   getOrders():void{
     this.orderService.getUserOrder(this.id()).pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
-        console.log(res);
         this.allOrder.set(res);
       }
     })

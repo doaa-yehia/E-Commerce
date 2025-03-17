@@ -39,7 +39,6 @@ export class AuthService {
     if(localStorage.getItem('userToken')!==null){
       this.userData= jwtDecode(localStorage.getItem('userToken') ! );
     }
-    console.log(this.userData);
     
   }
 

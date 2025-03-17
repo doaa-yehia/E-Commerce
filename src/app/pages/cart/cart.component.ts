@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, PLATFORM_ID, signal, WritableSignal } from '@angular/core';
 import { CartService } from '../../core/services/cart/cart.service';
 import { ICart } from '../../shared/interfaces/icart';
 import { CurrencyPipe } from '@angular/common';
@@ -20,7 +20,8 @@ export class CartComponent implements OnInit,OnDestroy {
   ngOnInit(): void {
     this.getCartData();
   }
-  private readonly cartService = inject(CartService)
+  private readonly cartService = inject(CartService);
+  private readonly platForm_ID = inject(PLATFORM_ID);
 
   cartDetails:WritableSignal<ICart>=signal({} as ICart) ;
   
@@ -28,19 +29,18 @@ export class CartComponent implements OnInit,OnDestroy {
 
  
   getCartData(): void {
+   
     this.cartService.getLoggedUseCart().pipe(takeUntil(this.$sub)).subscribe({
       next: (res) => {
-        console.log(res.data);
         this.cartDetails.set(res.data);
       }
-    })
+    });
   };
 
   removeFromCart(id:string):void{
     console.log(id);
     this.cartService.removeSpacificProdCart(id).pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
-        console.log(res);
         Swal.fire('Success','The Operation Was Successful','success' )
         this.cartDetails.set(res.data);
         this.cartService.cartItemsNum.set(res.numOfCartItems);
@@ -54,7 +54,6 @@ export class CartComponent implements OnInit,OnDestroy {
   updateItem(id:string,count:number):void{
     this.cartService.apdateCartQuantity(id,count).pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
-        console.log(res);
         this.cartDetails.set(res.data)
         
       }
@@ -65,7 +64,6 @@ export class CartComponent implements OnInit,OnDestroy {
     console.log('hello');
     this.cartService.clearCart().pipe(takeUntil(this.$sub)).subscribe({
       next:(res)=>{
-        console.log(res);
         
         
         if (res.message==="success") {

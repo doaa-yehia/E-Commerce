@@ -1,10 +1,11 @@
-import { Component, computed, HostListener, inject, input, InputSignal, OnDestroy, OnInit, Signal, signal, WritableSignal } from '@angular/core';
+import { Component, computed, HostListener, inject, input, InputSignal, OnDestroy, OnInit, PLATFORM_ID, Signal, signal, WritableSignal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../core/services/autu/auth.service';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { MyTranslateService } from '../../core/services/myTraslate/my-translate.service';
 import { CartService } from '../../core/services/cart/cart.service';
 import { Subject, takeUntil } from 'rxjs';
+import { isPlatformBrowser } from '@angular/common';
 // import { MyTranslateService } from '../../core/services/myTraslate/my-translate.service';
 
 @Component({
@@ -19,6 +20,7 @@ export class NavbarComponent implements OnInit,OnDestroy {
   private readonly myTranslateService=inject(MyTranslateService); 
   private readonly translateService=inject(TranslateService);
   private readonly cartService=inject(CartService);
+  private readonly platForm_ID = inject(PLATFORM_ID);
 
 
   isMain:InputSignal<boolean>=input(true);
@@ -30,12 +32,19 @@ export class NavbarComponent implements OnInit,OnDestroy {
 
 
   ngOnInit(): void {
-    
-    this.cartService.getLoggedUseCart().pipe(takeUntil(this.$sub)).subscribe({
-      next:(res)=>{
-        this.cartService.cartItemsNum.set(res.numOfCartItems);
+    if (isPlatformBrowser(this.platForm_ID)) {
+      if (localStorage.getItem('userToken')) {
+        
+        this.cartService.getLoggedUseCart().pipe(takeUntil(this.$sub)).subscribe({
+          next:(res)=>{
+            this.cartService.cartItemsNum.set(res.numOfCartItems);
+          }
+        })
+        
       }
-    })
+      
+    }
+    
   }
 
   toggelMenu(){
