@@ -60,16 +60,15 @@ export class DetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let productId:string|null;
+    let productId!:string|null;
     this._ActivatedRoute.paramMap.subscribe({
       next:(p)=>{
         // have id of product
         productId=p.get('id');
-        // console.log(productId);
+
         //api logic
         this._ProductsService.getSpecificProducts(productId).subscribe({
           next:(res)=>{
-            console.log(res.data);
             this.productDetails.set(res.data);
           }
         })
